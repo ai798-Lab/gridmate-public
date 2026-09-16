@@ -52,7 +52,7 @@ function initialLanguage() {
 }
 
 function renderRelease() {
-  for (const node of document.querySelectorAll('[data-release-version]')) node.textContent = release?.version && /^\d+\.\d+\.\d+$/.test(release.version) ? release.version : '0.3.0';
+  for (const node of document.querySelectorAll('[data-release-version]')) node.textContent = typeof release?.version === 'string' && /^\d+\.\d+\.\d+$/.test(release.version) ? release.version : '0.3.0';
   for (const node of document.querySelectorAll('[data-support-link]')) {
     if (isPublicLink(release?.supportUrl, 'issues')) node.href = release.supportUrl;
   }

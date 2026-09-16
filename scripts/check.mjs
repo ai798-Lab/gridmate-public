@@ -24,7 +24,7 @@ for (const page of ['index.html', 'privacy.html']) {
 const html = await readFile(resolve(root, 'index.html'), 'utf8');
 const languages = html.match(/<ul class="language-list"[\s\S]*?<\/ul>/)?.[0];
 assert.equal([...languages.matchAll(/<li\b/g)].length, 32, 'Language count must match the app');
-assert(/id="download-link" aria-disabled="true"/.test(html), 'Download must default to disabled');
+assert(/id="download-link"\s+aria-disabled="true"/.test(html), 'Download must default to disabled');
 const release = JSON.parse(await readFile(resolve(root, 'release.json'), 'utf8'));
 assert(['pending', 'published'].includes(release.status), 'Unknown release state');
 if (release.status === 'published') assert(isDownloadReady(release), 'Published release fails acceptance gates');
