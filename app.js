@@ -1,0 +1,129 @@
+import { isDownloadReady, isPublicLink } from './release-status.mjs';
+
+const english = {
+  'skip':'Skip to content', 'nav':'Main navigation', 'nav.features':'Features', 'nav.layouts':'Layouts', 'nav.languages':'Languages', 'nav.faq':'FAQ', 'nav.download':'Get GridMate ↗',
+  'hero.eyebrow':'ROOM FOR MORE. SPACE TO FOCUS.', 'hero.line1':'More windows.', 'hero.line2':'Less friction.',
+  'hero.description':'Your research, notes, and browser. Side by side. Find a layout that fits the way you work, and keep your attention where it belongs.',
+  'hero.cta':'Get it for Mac', 'hero.demo':'Explore layouts', 'hero.native':'Native menu bar app',
+  'demo.note':'One desktop. More possibilities.', 'demo.aria':'Interactive illustration of window layouts', 'demo.controls':'Demo layout', 'demo.try':'Try a layout', 'demo.caption':'Interactive illustration, not an app screenshot · Your windows stay untouched',
+  'facts.aria':'At a glance', 'facts.layouts':'built-in layouts', 'facts.zones':'window zones', 'facts.languages':'language & region options', 'facts.native':'Made for Mac<br>At home in your menu bar',
+  'features.eyebrow':'LESS ARRANGING. MORE DOING.', 'features.title':'Find your flow. Keep it.', 'features.intro':'From one window to your whole workspace.<br>Make room for the way you work.',
+  'feature1.title':'One click. A clearer desktop.', 'feature1.body':'Choose a layout from the menu bar to arrange visible windows on the target display. Keep your other screens as they are.',
+  'feature2.title':'Point, click, or take a shortcut.', 'feature2.body':'Open the grid picker with a shortcut, then choose a zone for your frontmost window. Or drag a window to an edge to snap it into place.',
+  'feature3.title':'Try a layout. Take it back.', 'feature3.body':'Undo the last arrangement to restore window positions and sizes. Exclude apps you want to leave alone. You stay in control.',
+  'layouts.eyebrow':'A PLACE FOR EVERY WINDOW', 'layouts.title':'Big ideas.<br>No overlap needed.', 'layouts.body':'Compare two documents, spread out across four tiles, or turn a big screen into a 12-zone workspace. There’s room to work in 21 built-in layouts.', 'layouts.note':'A large or ultrawide display is recommended for 9 or 12 zones. Some apps enforce minimum window sizes and may not fit smaller zones.',
+  'layout.halves':'Side by side', 'layout.quad':'Four corners', 'layout.focus':'One main, two beside', 'layout.six':'Six-window workspace', 'layout.nine':'Nine-grid', 'layout.twelve':'Twelve zones',
+  'languages.eyebrow':'SPEAK YOUR LANGUAGE', 'languages.title':'Feel right at home.', 'languages.body':'Follow your system language, or switch instantly in settings.<br>Right-to-left reading is supported without mirroring physical window positions.', 'languages.list':'Languages supported in the app', 'languages.note':'The 32 options include regional variants. Localization is continually improving; feedback on wording is welcome. This website is available in Chinese and English.',
+  'setup.eyebrow':'A CALMER DESKTOP, IN THREE STEPS', 'setup.title':'Meet your new workspace.',
+  'setup1.title':'Download and install', 'setup1.body':'Once the verified installer is available, open the DMG, drag GridMate into Applications, and launch it from there.',
+  'setup2.title':'Allow Accessibility access', 'setup2.body':'Go to System Settings → Privacy & Security → Accessibility and allow GridMate to adjust other apps’ windows.',
+  'setup3.title':'Choose your layout', 'setup3.body':'Click the grid icon in the menu bar and choose a layout. Or press Control + Option + Command + G to place your current window.',
+  'faq.title':'A few things to know.',
+  'faq1.q':'Which Macs are supported?', 'faq1.a':'The first release targets Apple silicon Macs (M-series chips) running macOS 13 or later. A verified Intel installer is not available. Independent-device validation on the minimum supported macOS version is still being completed.',
+  'faq2.q':'Why does it need Accessibility access?', 'faq2.a':'GridMate uses macOS Accessibility APIs to read window positions and sizes and adjust them when you use the app. This is not Screen Recording permission and does not require disabling System Integrity Protection (SIP). You can revoke access in System Settings at any time.',
+  'faq3.q':'Does it upload my windows or work?', 'faq3.a':'The current app has no accounts, advertising SDKs, or analytics reporting, and contains no code that uploads window information to a server. Preferences stay on your Mac. If you choose to report an issue, remove private information from screenshots and logs first. Website hosting logs are covered separately in the privacy notice.',
+  'faq4.q':'What about other displays and Spaces?', 'faq4.a':'Batch arrangement targets visible windows on the selected display; moving windows between Spaces is not a supported feature. Third-party apps, custom title bars, and display configurations can affect compatibility. The app reports limitations. Start with windows that contain no unsaved work.',
+  'faq5.q':'Will it be on the App Store? How do updates work?', 'faq5.a':'We’re focusing on direct downloads from this website. Mac App Store sandbox requirements conflict with cross-app window control, so no App Store launch date is promised. Automatic updates are not included yet; future versions will be available here and in the release notes.',
+  'faq6.q':'Where can I get help?', 'faq6.a':'Use the public support page to share your macOS version, chip, affected app, and steps to reproduce the problem. Never include passwords, private files, or sensitive window contents.', 'faq6.link':'See support options ↗',
+  'download.eyebrow':'MAKE SPACE FOR WHAT MATTERS', 'download.title':'A little order. A lot more focus.', 'download.description':'Your next workspace is already on your desk.', 'download.pending':'RELEASE IN PREPARATION', 'download.pendingCta':'Installer coming soon', 'download.pendingNote':'Downloads open after Apple notarization and download-to-install verification. No public installer is available yet.', 'download.notes':'Read release notes ↗',
+  'footer.tagline':'A little order. A lot more focus.', 'footer.nav':'Footer', 'footer.privacy':'Privacy', 'footer.support':'Help & feedback', 'footer.releases':'Release notes',
+  'privacy.back':'← Back to GridMate', 'privacy.eyebrow':'TRANSPARENT BY DESIGN', 'privacy.title':'Privacy, in plain language.', 'privacy.date':'Last updated: September 17, 2026 · Applies to GridMate 0.3.0',
+  'privacy.intro':'GridMate arranges windows on your Mac. The app’s local behavior and the website’s hosting services are different; here is what each does.',
+  'privacy.app.title':'1. What the app accesses', 'privacy.app.body':'With Accessibility permission, GridMate reads app and window metadata such as the owning process, window position, size, state, and controls, then changes positions and sizes to arrange windows. Diagnostic commands can also read window titles. It does not capture screenshots or read document text to perform window arrangements.',
+  'privacy.local.title':'2. What stays on your Mac', 'privacy.local.body':'Layout preferences, gaps, margins, excluded apps, and related settings are stored in GridMate’s local Application Support folder. The language choice is stored in app preferences. Undo information is held in memory for the running session. The current app has no account system, advertising SDK, or code that uploads this information.',
+  'privacy.logs.title':'3. Diagnostics and feedback', 'privacy.logs.body':'Release builds disable the file-based mouse interaction debug log. macOS may retain operational logs, such as launch, arrangement counts, and errors. Development builds and manually run diagnostics can produce more detailed output. Feedback is voluntary; please remove window titles, personal file names, and private information before sharing screenshots or logs. Public GitHub issues are visible to everyone.',
+  'privacy.website.title':'4. This website and downloads', 'privacy.website.body':'This website does not add analytics scripts, advertising trackers, or third-party web fonts. It uses a local browser preference to remember your website language; blocking storage does not prevent access. When hosted on GitHub Pages, GitHub records visitors’ IP addresses for security. GitHub also serves downloads and feedback pages under its own privacy statement.', 'privacy.github':'Read GitHub’s privacy statement ↗',
+  'privacy.control.title':'5. Your choices', 'privacy.control.body':'You can revoke GridMate’s Accessibility permission in System Settings and turn off launch at login. Removing the app does not necessarily remove local settings. To remove preferences, quit the app first, then remove only GridMate’s configuration and preferences. Clearing this website’s browser storage resets the website language preference.',
+  'privacy.contact.title':'6. Questions and updates', 'privacy.contact.body':'Use GridMate’s public support entry for general questions, without posting personal information. This notice describes the current version; if accounts, payments, analytics, or update services are introduced, the notice and relevant choices must be updated before those features are launched.', 'privacy.support':'GridMate support ↗'
+};
+
+const chinese = new Map();
+for (const node of document.querySelectorAll('[data-i18n]')) chinese.set(node.dataset.i18n, node.innerHTML);
+const chineseLabels = new Map();
+for (const node of document.querySelectorAll('[data-i18n-aria]')) chineseLabels.set(node.dataset.i18nAria, node.getAttribute('aria-label'));
+let release = null;
+let language = 'zh';
+
+function initialLanguage() {
+  const query = new URL(location.href).searchParams.get('lang');
+  if (query === 'en' || query === 'zh') return query;
+  try { const saved = localStorage.getItem('gridmate.site.language'); if (saved === 'en' || saved === 'zh') return saved; } catch { /* Storage can be blocked. */ }
+  return navigator.language?.toLowerCase().startsWith('zh') ? 'zh' : 'en';
+}
+
+function renderRelease() {
+  for (const node of document.querySelectorAll('[data-release-version]')) node.textContent = release?.version && /^\d+\.\d+\.\d+$/.test(release.version) ? release.version : '0.3.0';
+  for (const node of document.querySelectorAll('[data-support-link]')) {
+    if (isPublicLink(release?.supportUrl, 'issues')) node.href = release.supportUrl;
+  }
+  for (const node of document.querySelectorAll('[data-release-link]')) {
+    if (isPublicLink(release?.releaseUrl, 'releases')) node.href = release.releaseUrl;
+  }
+  if (!isDownloadReady(release)) return;
+  const link = document.getElementById('download-link');
+  if (!link) return;
+  link.href = release.downloadUrl;
+  link.removeAttribute('aria-disabled');
+  link.textContent = language === 'en' ? 'Download for Apple silicon ↓' : '下载 Apple silicon 版 ↓';
+  document.getElementById('release-badge').textContent = language === 'en' ? 'NOTARIZED · EARLY RELEASE' : '已通过 Apple 公证 · 早期版本';
+  document.getElementById('release-status').textContent = language === 'en' ? `Version ${release.version} · ${(release.sizeBytes / 1048576).toFixed(1)} MB. Developer ID signed and notarized by Apple. See release notes for known limitations.` : `版本 ${release.version} · ${(release.sizeBytes / 1048576).toFixed(1)} MB。已完成 Developer ID 签名与 Apple 公证；兼容性限制见发行说明。`;
+  document.querySelector('.download-action [data-release-link]').hidden = false;
+  const checksum = document.getElementById('checksum');
+  checksum.hidden = false;
+  checksum.textContent = `SHA-256: ${release.sha256}`;
+}
+
+function setLanguage(value, persist = false) {
+  language = value;
+  document.documentElement.lang = value === 'en' ? 'en' : 'zh-CN';
+  for (const node of document.querySelectorAll('[data-i18n]')) {
+    // The only HTML comes from the fixed, reviewed translation table above.
+    node.innerHTML = value === 'en' ? (english[node.dataset.i18n] ?? chinese.get(node.dataset.i18n)) : chinese.get(node.dataset.i18n);
+  }
+  for (const node of document.querySelectorAll('[data-i18n-aria]')) node.setAttribute('aria-label', value === 'en' ? english[node.dataset.i18nAria] : chineseLabels.get(node.dataset.i18nAria));
+  const control = document.getElementById('language-switch');
+  control.textContent = value === 'en' ? '中文' : 'EN';
+  control.lang = value === 'en' ? 'zh-CN' : 'en';
+  control.setAttribute('aria-label', value === 'en' ? '将网站切换为中文' : 'Switch website to English');
+  const isPrivacy = document.body.dataset.page === 'privacy';
+  document.title = isPrivacy ? (value === 'en' ? 'Privacy · GridMate' : '隐私说明 · GridMate') : (value === 'en' ? 'GridMate · More windows. Less friction.' : 'GridMate · 多窗口，各就各位');
+  const description = document.querySelector('meta[name="description"]');
+  if (description) description.content = isPrivacy ? (value === 'en' ? 'How GridMate handles window data, local preferences, diagnostics, and website hosting.' : '了解 GridMate 的窗口数据、本地偏好、诊断和官网托管服务。') : (value === 'en' ? 'A native Mac window manager. 21 layouts, up to 12 zones, and 32 language and region options. Make space for what matters.' : 'GridMate，原生 Mac 多窗口整理工具。21 种布局、最多 12 分区、32 个语言与地区版本。让窗口各就各位，把注意力留给工作。');
+  for (const node of document.querySelectorAll('[data-keep-language]')) {
+    const url = new URL(node.href); url.searchParams.set('lang', value); node.href = url.href;
+  }
+  const demoStatus = document.getElementById('demo-status');
+  if (demoStatus?.textContent) {
+    const count = document.getElementById('demo-canvas').dataset.layout;
+    demoStatus.textContent = value === 'en' ? `Preview: ${count} window zones.` : `正在演示 ${count} 个窗口分区。`;
+  }
+  if (persist) {
+    try { localStorage.setItem('gridmate.site.language', value); } catch { /* Optional preference. */ }
+    const url = new URL(location.href); url.searchParams.set('lang', value); history.replaceState(null, '', url);
+  }
+  renderRelease();
+}
+
+document.getElementById('language-switch').addEventListener('click', () => setLanguage(language === 'en' ? 'zh' : 'en', true));
+const canvas = document.getElementById('demo-canvas');
+if (canvas) {
+  canvas.setAttribute('aria-hidden', 'true');
+  for (const button of document.querySelectorAll('[data-demo-layout]')) button.addEventListener('click', () => {
+    const count = Number(button.dataset.demoLayout);
+    if (![6, 9, 12].includes(count)) return;
+    const columns = count === 12 ? 4 : 3;
+    for (const [i, window] of [...canvas.children].entries()) {
+      window.style.setProperty('--col', i % columns);
+      window.style.setProperty('--row', Math.floor(i / columns));
+    }
+    canvas.dataset.layout = String(count);
+    for (const other of document.querySelectorAll('[data-demo-layout]')) other.setAttribute('aria-pressed', String(other === button));
+    document.getElementById('demo-status').textContent = language === 'en' ? `Preview: ${count} window zones.` : `正在演示 ${count} 个窗口分区。`;
+  });
+}
+
+setLanguage(initialLanguage());
+try {
+  const response = await fetch('./release.json', { cache: 'no-store' });
+  if (response.ok) { release = await response.json(); renderRelease(); }
+} catch { /* Leave download unavailable. No guessed URL or automatic fallback. */ }

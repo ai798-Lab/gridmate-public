@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "version": "0.3.0",
+  "status": "pending",
+  "minimumMacOS": "13.0",
+  "architecture": "arm64",
+  "releaseUrl": "https://github.com/ai798-Lab/gridmate-public/releases",
+  "supportUrl": "https://github.com/ai798-Lab/gridmate-public/issues",
+  "downloadUrl": null,
+  "sha256": null,
+  "sizeBytes": null,
+  "releasedAt": null,
+  "appleNotarized": false,
+  "gatekeeperAccepted": false,
+  "downloadedArtifactTested": false
+}

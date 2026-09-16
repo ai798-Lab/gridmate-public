@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8f2">
+  <meta name="description" content="GridMate，原生 Mac 多窗口整理工具。21 种布局、最多 12 分区、32 个语言与地区版本。让窗口各就各位，把注意力留给工作。">
+  <meta property="og:title" content="GridMate · 多窗口，各就各位">
+  <meta property="og:description" content="为 Mac 而生的多窗口整理工具。21 种布局，32 个语言与地区版本。">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <title>GridMate · 多窗口，各就各位</title>
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="skip">跳到主要内容</a>
+  <header class="site-header wrap">
+    <a class="brand" href="./" aria-label="GridMate"><img src="./favicon.svg" alt="" width="34" height="34">GridMate</a>
+    <nav class="desktop-nav" aria-label="主导航" data-i18n-aria="nav">
+      <a href="#features" data-i18n="nav.features">功能</a>
+      <a href="#layouts" data-i18n="nav.layouts">布局</a>
+      <a href="#languages" data-i18n="nav.languages">语言</a>
+      <a href="#faq" data-i18n="nav.faq">常见问题</a>
+    </nav>
+    <div class="header-actions"><button class="language-switch" id="language-switch" type="button" lang="en" aria-label="Switch website to English">EN</button><a class="button button-small button-dark" href="#download" data-i18n="nav.download">获取 GridMate <span aria-hidden="true">↗</span></a></div>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot"></span><span data-i18n="hero.eyebrow">为多任务，也为专注而生</span></p>
+        <h1 id="hero-title"><span data-i18n="hero.line1">多窗口，</span><br><span class="green-text" data-i18n="hero.line2">各就各位。</span></h1>
+        <p class="hero-description" data-i18n="hero.description">资料、笔记、浏览器，同时展开。用一个顺手的布局，告别来回切换，把注意力留给真正重要的事。</p>
+        <div class="hero-actions"><a class="button button-dark" href="#download"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg><span data-i18n="hero.cta">获取 Mac 版</span></a><a class="text-link" href="#layouts"><span data-i18n="hero.demo">试试布局</span><span aria-hidden="true">↗</span></a></div>
+        <p class="compatibility"><span aria-hidden="true">◈</span> macOS 13+ <span>·</span> Apple silicon <span>·</span> <span data-i18n="hero.native">原生菜单栏工具</span></p>
+      </div>
+
+      <div class="hero-visual">
+        <div class="visual-note"><span class="note-line"></span><span data-i18n="demo.note">一个桌面，更多可能</span></div>
+        <div class="desktop-demo" aria-label="窗口布局交互示意" data-i18n-aria="demo.aria">
+          <div class="demo-menubar"><span class="mini-brand"><img src="./favicon.svg" alt="" width="13" height="13">GridMate</span><span class="menu-dots" aria-hidden="true">▦ &nbsp; ◉ &nbsp; 09:41</span></div>
+          <div class="demo-canvas" id="demo-canvas" data-layout="6">
+            <div class="demo-window window-1"><div class="window-bar"><i></i><i></i><i></i><span>Ideas</span></div><div class="window-body"><small>MAKE ROOM FOR</small><strong>A little<br>more focus.</strong><span class="fake-line"></span><span class="fake-line short"></span></div></div>
+            <div class="demo-window window-2"><div class="window-bar"><i></i><i></i><i></i><span>Browser</span></div><div class="window-body browser-body"><div class="mini-picture"><span></span></div><span class="fake-line"></span><span class="fake-line short"></span></div></div>
+            <div class="demo-window window-3"><div class="window-bar"><i></i><i></i><i></i><span>Plan</span></div><div class="window-body checklist"><b>Today, simply.</b><span>✓ &nbsp; Make a plan</span><span>✓ &nbsp; Find your rhythm</span><span>○ &nbsp; Do good work</span></div></div>
+            <div class="demo-window window-4"><div class="window-bar"><i></i><i></i><i></i><span>Build</span></div><div class="window-body code-body"><span>let workspace = {</span><span>&nbsp; focus: true,</span><span>&nbsp; clutter: false</span><span>}</span><span class="code-cursor">▊</span></div></div>
+            <div class="demo-window window-5"><div class="window-bar"><i></i><i></i><i></i><span>Library</span></div><div class="window-body"><div class="folder-row"><span>▰</span> Inspiration</div><div class="folder-row"><span>▰</span> Research</div><div class="folder-row"><span>▰</span> Project files</div></div></div>
+            <div class="demo-window window-6"><div class="window-bar"><i></i><i></i><i></i><span>Sound</span></div><div class="window-body sound-body"><div class="record"><span></span></div><div><b>In the flow</b><small>Room to think</small><span>‹ &nbsp; Ⅱ &nbsp; ›</span></div></div></div>
+            <div class="demo-window extra-window window-7"><div class="window-bar"><i></i><i></i><i></i><span>Notes</span></div><div class="window-body"><span class="fake-line"></span><span class="fake-line short"></span></div></div>
+            <div class="demo-window extra-window window-8"><div class="window-bar"><i></i><i></i><i></i><span>Calendar</span></div><div class="window-body"><b class="calendar-number">17</b></div></div>
+            <div class="demo-window extra-window window-9"><div class="window-bar"><i></i><i></i><i></i><span>Sketch</span></div><div class="window-body sketch-body"><span>✳</span></div></div>
+            <div class="demo-window extra-window window-10"><div class="window-bar"><i></i><i></i><i></i><span>Reading</span></div><div class="window-body"><span class="fake-line"></span><span class="fake-line"></span></div></div>
+            <div class="demo-window extra-window window-11"><div class="window-bar"><i></i><i></i><i></i><span>Tasks</span></div><div class="window-body"><span class="fake-line short"></span><span class="fake-line"></span></div></div>
+            <div class="demo-window extra-window window-12"><div class="window-bar"><i></i><i></i><i></i><span>Space</span></div><div class="window-body sketch-body"><span>↗</span></div></div>
+          </div>
+          <div class="demo-dock" aria-hidden="true"><span>▦</span><span>◈</span><span>▤</span><span>⌘</span><span>♫</span></div>
+        </div>
+        <div class="demo-controls" role="group" aria-label="演示布局" data-i18n-aria="demo.controls"><span data-i18n="demo.try">点击切换</span><button type="button" data-demo-layout="6" aria-pressed="true">2 × 3</button><button type="button" data-demo-layout="9" aria-pressed="false">3 × 3</button><button type="button" data-demo-layout="12" aria-pressed="false">3 × 4</button><span class="demo-hint" aria-hidden="true">↖</span></div>
+        <p class="demo-caption" data-i18n="demo.caption">交互示意，非应用截图 · 不会操作你的真实窗口</p>
+        <span class="sr-only" id="demo-status" role="status" aria-live="polite"></span>
+      </div>
+    </section>
+
+    <div class="facts wrap" aria-label="功能概览" data-i18n-aria="facts.aria"><div><strong>21</strong><span data-i18n="facts.layouts">种内置布局</span></div><div><strong>12<span> MAX</span></strong><span data-i18n="facts.zones">个窗口分区</span></div><div><strong>32</strong><span data-i18n="facts.languages">个语言与地区版本</span></div><div class="fact-native"><svg viewBox="0 0 28 28" aria-hidden="true"><rect x="3" y="4" width="22" height="15" rx="2"/><path d="M10 25h8m-4-6v6"/></svg><span data-i18n="facts.native">原生 Mac 体验<br>轻驻菜单栏</span></div></div>
+
+    <section class="section wrap" id="features" aria-labelledby="features-title">
+      <div class="section-heading"><div><p class="eyebrow" data-i18n="features.eyebrow">LESS ARRANGING. MORE DOING.</p><h2 id="features-title" data-i18n="features.title">少一点整理，多一点心流。</h2></div><p data-i18n="features.intro">从一个窗口到一整个工作台，<br>找到最顺手的节奏。</p></div>
+      <div class="feature-grid">
+        <article class="feature-card"><div class="feature-art art-grid" aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><span>↖</span></div><span class="card-index">01 / ARRANGE</span><h3 data-i18n="feature1.title">一键，整理这一屏</h3><p data-i18n="feature1.body">从菜单栏选个布局，让当前屏幕的可见窗口有序铺开。整理这一屏，不打扰另一屏。</p></article>
+        <article class="feature-card"><div class="feature-art art-keys" aria-hidden="true"><kbd>⌃</kbd><kbd>⌥</kbd><kbd>⌘</kbd><kbd>G</kbd></div><span class="card-index">02 / YOUR WAY</span><h3 data-i18n="feature2.title">鼠标和键盘，都顺手</h3><p data-i18n="feature2.body">快捷键打开网格选择器，点一个格子放好当前窗口；也可以拖窗贴边，快速分屏。</p></article>
+        <article class="feature-card"><div class="feature-art art-undo" aria-hidden="true"><div class="undo-window back"></div><span>↶</span><div class="undo-window front"></div></div><span class="card-index">03 / STAY IN CONTROL</span><h3 data-i18n="feature3.title">放心调整，随时撤销</h3><p data-i18n="feature3.body">恢复上一次排布前的位置和尺寸。支持排除不想整理的 App，工作方式由你决定。</p></article>
+      </div>
+    </section>
+
+    <section class="layout-section" id="layouts" aria-labelledby="layouts-title"><div class="wrap layout-inner"><div class="layout-copy"><p class="eyebrow" data-i18n="layouts.eyebrow">A PLACE FOR EVERY WINDOW</p><h2 id="layouts-title" data-i18n="layouts.title">屏幕很大，<br>想法不必重叠。</h2><p data-i18n="layouts.body">并排对照、四宫格协作，或把大屏变成 12 分区工作台。21 种预设，从简单到密集都有位置。</p><p class="small-note" data-i18n="layouts.note">9 / 12 分区建议搭配大屏或超宽屏。窗口有最小尺寸限制，不能保证所有 App 都能缩进每一个格子。</p></div><div class="layout-library"><div class="layout-card"><div class="layout-icon halves" aria-hidden="true"><i></i><i></i></div><b data-i18n="layout.halves">左右并排</b><span>1 × 2</span></div><div class="layout-card"><div class="layout-icon quad" aria-hidden="true"><i></i><i></i><i></i><i></i></div><b data-i18n="layout.quad">四宫格</b><span>2 × 2</span></div><div class="layout-card"><div class="layout-icon focus" aria-hidden="true"><i></i><i></i><i></i></div><b data-i18n="layout.focus">一主两辅</b><span>1 + 2</span></div><div class="layout-card"><div class="layout-icon six" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div><b data-i18n="layout.six">六格工作台</b><span>2 × 3</span></div><div class="layout-card"><div class="layout-icon nine" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><b data-i18n="layout.nine">九宫格</b><span>3 × 3</span></div><div class="layout-card"><div class="layout-icon twelve" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><b data-i18n="layout.twelve">十二分区</b><span>3 × 4</span></div></div></div></section>
+
+    <section class="section wrap language-section" id="languages" aria-labelledby="languages-title"><div class="language-heading"><span class="language-number">32<span>↗</span></span><div><p class="eyebrow" data-i18n="languages.eyebrow">SPEAK YOUR LANGUAGE</p><h2 id="languages-title" data-i18n="languages.title">熟悉的语言，顺手的体验。</h2><p data-i18n="languages.body">跟随系统语言，也能在 App 设置中即时切换。<br>支持右向左阅读，窗口的物理位置保持不变。</p></div></div><ul class="language-list" aria-label="App 支持的语言" data-i18n-aria="languages.list"><li lang="zh-Hans">简体中文</li><li lang="zh-Hant">繁體中文</li><li lang="yue-Hant">粵語</li><li lang="en">English</li><li lang="ja">日本語</li><li lang="ko">한국어</li><li lang="fr">Français</li><li lang="de">Deutsch</li><li lang="es">Español</li><li lang="es-419">Español (Latinoamérica)</li><li lang="pt-BR">Português (Brasil)</li><li lang="pt-PT">Português (Portugal)</li><li lang="it">Italiano</li><li lang="nl">Nederlands</li><li lang="pl">Polski</li><li lang="uk">Українська</li><li lang="ru">Русский</li><li lang="ar" dir="rtl">العربية</li><li lang="he" dir="rtl">עברית</li><li lang="fa" dir="rtl">فارسی</li><li lang="ur" dir="rtl">اردو</li><li lang="tr">Türkçe</li><li lang="th">ไทย</li><li lang="vi">Tiếng Việt</li><li lang="id">Bahasa Indonesia</li><li lang="ms">Bahasa Melayu</li><li lang="fil">Filipino</li><li lang="hi">हिन्दी</li><li lang="bn">বাংলা</li><li lang="ta">தமிழ்</li><li lang="sv">Svenska</li><li lang="fi">Suomi</li></ul><p class="small-note" data-i18n="languages.note">32 个语言与地区版本包含地区变体。我们持续改进本地化，欢迎反馈不自然的译文。官网目前提供中文与英文。</p></section>
+
+    <section class="section wrap setup-section" id="start" aria-labelledby="setup-title"><div class="section-heading"><div><p class="eyebrow" data-i18n="setup.eyebrow">A CALMER DESKTOP, IN THREE STEPS</p><h2 id="setup-title" data-i18n="setup.title">从桌面，到工作台。</h2></div></div><ol class="setup-steps"><li><span class="step-number">1</span><h3 data-i18n="setup1.title">下载并安装</h3><p data-i18n="setup1.body">正式安装包开放后，打开 DMG，将 GridMate 拖进「应用程序」，再从那里启动。</p></li><li><span class="step-number">2</span><h3 data-i18n="setup2.title">允许辅助功能</h3><p data-i18n="setup2.body">在「系统设置 → 隐私与安全性 → 辅助功能」中允许 GridMate，用于调整其他 App 的窗口。</p></li><li><span class="step-number">3</span><h3 data-i18n="setup3.title">选一个顺手的布局</h3><p data-i18n="setup3.body">点菜单栏里的网格图标，选择布局；或按 Control + Option + Command + G，放好当前窗口。</p></li></ol></section>
+
+    <section class="section wrap faq-section" id="faq" aria-labelledby="faq-title"><div><p class="eyebrow">GOOD TO KNOW</p><h2 id="faq-title" data-i18n="faq.title">你可能还想知道。</h2></div><div class="faq-list"><details><summary data-i18n="faq1.q">哪些 Mac 可以使用？</summary><p data-i18n="faq1.a">首批发行目标是搭载 Apple silicon（M 系列芯片）、运行 macOS 13 或更新版本的 Mac。目前尚未提供经过验证的 Intel 安装包。最低系统版本的独立设备验收仍在补充中。</p></details><details><summary data-i18n="faq2.q">为什么需要「辅助功能」权限？</summary><p data-i18n="faq2.a">GridMate 需要通过 macOS 的辅助功能接口读取窗口位置和大小，并在你的操作下调整窗口。这个权限不是屏幕录制权限，也不需要关闭系统完整性保护（SIP）。你可以随时在系统设置中撤销授权。</p></details><details><summary data-i18n="faq3.q">它会上传我的窗口或工作内容吗？</summary><p data-i18n="faq3.a">当前 App 没有账号、广告 SDK 或分析上报，也不包含将窗口信息上传到服务器的代码。偏好设置保存在本机。主动提交问题时，请先去掉截图或日志中的私人内容。官网托管服务的访问日志另见隐私说明。</p></details><details><summary data-i18n="faq4.q">会影响其他屏幕或桌面空间吗？</summary><p data-i18n="faq4.a">批量整理面向当前目标屏幕的可见窗口，不设计跨 Space 搬移功能。第三方 App、自定义标题栏和不同显示器组合可能影响兼容性；发生限制时，App 会提示。建议先用不含未保存内容的窗口试用。</p></details><details><summary data-i18n="faq5.q">会在 App Store 上架吗？如何更新？</summary><p data-i18n="faq5.a">当前优先通过官网直接分发。Mac App Store 的沙盒要求与跨应用窗口控制存在兼容性限制，暂不承诺上架日期。当前版本尚未接入自动更新，后续版本将通过官网下载页和发行记录提供。</p></details><details><summary data-i18n="faq6.q">遇到问题，在哪里反馈？</summary><p><span data-i18n="faq6.a">请通过公开反馈区描述 macOS 版本、芯片、使用的 App 和复现步骤。不要附带密码、私人文件或完整窗口内容。</span> <a data-support-link href="#download" data-i18n="faq6.link">查看支持入口 ↗</a></p></details></div></section>
+
+    <section class="download-section wrap" id="download" aria-labelledby="download-title"><div class="download-card"><div><p class="eyebrow" data-i18n="download.eyebrow">MAKE SPACE FOR WHAT MATTERS</p><h2 id="download-title" data-i18n="download.title">给专注，留出位置。</h2><p data-i18n="download.description">你的下一个工作台，就在这块屏幕上。</p><div class="download-meta">GridMate <span data-release-version>0.3.0</span> <span>·</span> macOS 13+ <span>·</span> Apple silicon</div></div><div class="download-action"><span class="release-badge" id="release-badge" data-i18n="download.pending">发行准备中</span><a class="button button-light" id="download-link" aria-disabled="true"><span data-i18n="download.pendingCta">安装包即将开放</span><span aria-hidden="true">↓</span></a><p class="release-status" id="release-status" role="status" data-i18n="download.pendingNote">完成 Apple 公证和下载安装验证后开放。当前没有可公开下载的正式安装包。</p><a class="release-link" data-release-link hidden data-i18n="download.notes">查看发行说明 ↗</a><p class="checksum" id="checksum" hidden></p></div></div></section>
+  </main>
+  <footer class="site-footer wrap"><div><a class="brand" href="./"><img src="./favicon.svg" width="26" height="26" alt="">GridMate</a><p data-i18n="footer.tagline">A little order. A lot more focus.</p></div><nav aria-label="页脚" data-i18n-aria="footer.nav"><a href="./privacy.html" data-keep-language data-i18n="footer.privacy">隐私说明</a><a data-support-link href="#download" data-i18n="footer.support">支持与反馈</a><a data-release-link href="#download" data-i18n="footer.releases">发行记录</a></nav><small>© 2026 GridMate · ai798-Lab</small></footer>
+  <noscript><p class="noscript-note">官网的布局演示与语言切换需要 JavaScript。正式下载状态请查看公开发行记录；此页面未启用下载链接。The interactive demo and language switch need JavaScript. Downloads remain disabled until the release is verified.</p></noscript>
+</body>
+</html>
