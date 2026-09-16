@@ -22,7 +22,8 @@ for (const page of ['index.html', 'privacy.html']) {
   assert(!/https?:\/\/(?:fonts|www\.google-analytics)/.test(html), 'No external fonts or tracking');
 }
 const html = await readFile(resolve(root, 'index.html'), 'utf8');
-const languages = html.match(/<ul class="language-list"[\s\S]*?<\/ul>/)?.[0];
+const languages = html.match(/<ul\s+class="language-list"[\s\S]*?<\/ul>/)?.[0];
+assert(languages, 'Language list must be present');
 assert.equal([...languages.matchAll(/<li\b/g)].length, 32, 'Language count must match the app');
 assert(/id="download-link"\s+aria-disabled="true"/.test(html), 'Download must default to disabled');
 const release = JSON.parse(await readFile(resolve(root, 'release.json'), 'utf8'));
