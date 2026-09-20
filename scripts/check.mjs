@@ -7,6 +7,13 @@ import { isDownloadReady, isPublicLink } from '../release-status.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const script = await readFile(resolve(root, 'app.js'), 'utf8');
+for (const entry of ['app.js', 'studio.js']) {
+  const source = await readFile(resolve(root, entry), 'utf8');
+  for (const [, asset, version] of source.matchAll(/['"](\.\/[^'"?]+\.m?js)\?v=([a-f\d]+)['"]/g)) {
+    const expected = createHash('sha256').update(await readFile(resolve(root, asset))).digest('hex').slice(0, 12);
+    assert.equal(version, expected, `${entry}: stale module URL for ${asset}`);
+  }
+}
 const englishKeys = new Set([...script.matchAll(/'([^']+)'\s*:/g)].map(m => m[1]));
 for (const page of ['index.html', 'privacy.html', 'brand.html', 'support.html', 'releases/index.html', 'releases/0.3.5.html', 'releases/0.3.6.html', 'releases/0.3.7.html']) {
   const html = await readFile(resolve(root, page), 'utf8');
@@ -26,11 +33,19 @@ const html = await readFile(resolve(root, 'index.html'), 'utf8');
 const languages = html.match(/<ul\s+class="language-list"[\s\S]*?<\/ul>/)?.[0];
 assert(languages, 'Language list must be present');
 assert.equal([...languages.matchAll(/<li\b/g)].length, 32, 'Language count must match the app');
-assert(/id="download-link"\s+aria-disabled="true"/.test(html), 'Download must default to disabled');
 const release = JSON.parse(await readFile(resolve(root, 'latest.json'), 'utf8'));
 assert(['pending', 'published'].includes(release.status), 'Unknown release state');
 if (release.status === 'published') {
   assert(isDownloadReady(release), 'Published release fails acceptance gates');
+  const snapshot = html.match(/<script type="application\/json" id="release-snapshot">([^<]*)<\/script>/)?.[1];
+  assert(snapshot, 'Published page must embed release metadata for network-independent downloads');
+  assert.deepEqual(JSON.parse(snapshot), release, 'Embedded release is stale');
+  const buttons = [...html.matchAll(/<a\b[^>]*\bdata-installer-download\b[^>]*>/g)].map(match => match[0]);
+  assert.equal(buttons.length, 3, 'Header, hero and download section must all download directly');
+  for (const button of buttons) {
+    assert(button.includes(`href="${release.downloadUrl}"`), 'Static installer link is missing or stale');
+    assert(!button.includes('aria-disabled="true"'), 'Published download must work before JavaScript');
+  }
   if (release.websiteDownloadUrl) {
     assert.equal(release.websiteDownloadUrl, `https://snaptiler.com/downloads/SnapTiler-${release.version}-arm64.dmg`);
     const installer = await readFile(resolve(root, `downloads/SnapTiler-${release.version}-arm64.dmg`));
@@ -38,7 +53,10 @@ if (release.status === 'published') {
     assert.equal(createHash('sha256').update(installer).digest('hex'), release.sha256, 'Website installer differs from verified release');
   }
 }
-else assert.equal(release.downloadUrl, null, 'Pending release cannot contain a download URL');
+else {
+  assert.equal(release.downloadUrl, null, 'Pending release cannot contain a download URL');
+  assert(/id="download-link"[^>]*aria-disabled="true"/.test(html), 'Pending download must stay disabled');
+}
 if (release.supportUrl) assert(isPublicLink(release.supportUrl, 'issues'), 'Invalid support destination');
 if (release.releaseUrl) assert(isPublicLink(release.releaseUrl, 'releases'), 'Invalid release destination');
 async function scan(dir) {

@@ -8,7 +8,8 @@
     "check": "node scripts/check.mjs",
     "build:scene": "esbuild window-scene.js --bundle --format=esm --minify --outfile=window-scene.bundle.js",
     "build:motion": "esbuild scroll-depth.js --bundle --format=esm --minify --outfile=scroll-depth.bundle.js",
-    "build": "npm run build:motion && npm run build:scene && node scripts/version-assets.mjs"
+    "build": "npm run build:release && npm run build:motion && npm run build:scene && node scripts/version-assets.mjs",
+    "build:release": "node scripts/build-release.mjs"
   },
   "dependencies": {
     "gsap": "3.15.0",

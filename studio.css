@@ -397,3 +397,8 @@ html[lang=en] .hero h1{font-size:39px;letter-spacing:-1.8px}
 .small-note,.scene-caption,.compatibility,.shot-caption,.release-status{color:#6e8098}
 .layout-section .section-heading>p{color:#637995}
 
+
+.backup-download{font-size:12px;color:#526b91;text-decoration:underline;text-underline-offset:4px}
+.download-feedback{position:fixed;z-index:100;bottom:20px;left:50%;transform:translateX(-50%);width:max-content;max-width:calc(100% - 32px);padding:14px 20px;border:1px solid #e0e5ec;border-radius:9px;background:#fff;color:#34435b;box-shadow:0 8px 30px #1b2c481c;font-size:13px;line-height:1.7}
+.download-feedback a{color:#4569a4;text-decoration:underline;margin-left:8px}
+a[data-installer-download][aria-disabled=true]{pointer-events:none}

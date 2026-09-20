@@ -23,3 +23,17 @@ export function isDownloadReady(release) {
 export function websiteDownloadURL(release) {
   return isDownloadReady(release) ? release.downloadUrl : null;
 }
+
+export function backupDownloadURL(release) {
+  if (!isDownloadReady(release)) return null;
+  const expected = `https://github.com/ai798-Lab/gridmate-public/releases/download/v${release.version}/SnapTiler-${release.version}-arm64.dmg`;
+  return release.backupDownloadUrl === expected ? expected : null;
+}
+
+// An unavailable update request must not erase a verified release embedded at
+// publication. An explicit withdrawal still disables every download entry.
+export function resolveRelease(snapshot, response) {
+  if (response?.schemaVersion === 1 && response.status === 'pending') return null;
+  if (isDownloadReady(response)) return response;
+  return isDownloadReady(snapshot) ? snapshot : null;
+}

@@ -1,4 +1,4 @@
-import { isDownloadReady, isPublicLink, websiteDownloadURL } from './release-status.mjs?v=15efb2f94506';
+import { isDownloadReady, isPublicLink, websiteDownloadURL, backupDownloadURL, resolveRelease } from './release-status.mjs?v=8bd83fdbcae0';
 
 const english = {
   'nav.product':'The app', 'product.label':'LAYOUT LIBRARY', 'product.version':'v0.3.7 Beta · Interface illustration', 'product.preparing':'Capturing the new app interface', 'product.caption':'Choose a layout. See the result before you arrange.', 'product.how':'See how it works', 'product.provenance':'Redrawn SnapTiler v0.3.7 Beta interface · Interactive preview', 'workflow.title':'Fits your Mac. Fits your day.', 'workflow.intro':'A familiar Mac interface.<br>A little more room to focus.', 'workflow.settingsTitle':'Make yourself at home.', 'workflow.settingsBody':'Language, spacing, shortcuts, and excluded apps. Clear settings that make the everyday feel effortless.', 'workflow.layoutTitle':'Leave a little breathing room.', 'workflow.layoutBody':'Adjust gaps and screen margins. Arrange the whole screen or just one window, and find your own rhythm.',
@@ -6,7 +6,7 @@ const english = {
   'skip':'Skip to content', 'nav':'Main navigation', 'nav.features':'Features', 'nav.layouts':'Layouts', 'nav.languages':'Languages', 'nav.faq':'FAQ', 'nav.download':'Downloads ↗',
   'hero.eyebrow':'A NATIVE MAC WINDOW MANAGER', 'hero.line1':'Space to work.', 'hero.line2':'Room to think.',
   'hero.description':'Your research, notes, and browser. Side by side. Find a layout that fits the way you work, and keep your attention where it belongs.',
-  'hero.cta':'Download status', 'hero.demo':'See the app', 'hero.native':'Native menu bar app',
+  'hero.cta':'Get it for Mac', 'hero.demo':'See the app', 'hero.native':'Native menu bar app',
   'demo.note':'One desktop. More possibilities.', 'demo.aria':'Interactive illustration of window layouts', 'demo.controls':'Demo layout', 'demo.try':'Try a layout', 'demo.caption':'Interactive illustration, not an app screenshot · Your windows stay untouched',
   'facts.aria':'At a glance', 'facts.layouts':'built-in layouts', 'facts.zones':'window zones', 'facts.languages':'language & region options', 'facts.native':'Made for Mac<br>At home in your menu bar',
   'features.eyebrow':'LESS ARRANGING. MORE DOING.', 'features.title':'Find your flow. Keep it.', 'features.intro':'From one window to your whole workspace.<br>Make room for the way you work.',
@@ -71,7 +71,9 @@ const chinese = new Map();
 for (const node of document.querySelectorAll('[data-i18n]')) chinese.set(node.dataset.i18n, node.innerHTML);
 const chineseLabels = new Map();
 for (const node of document.querySelectorAll('[data-i18n-aria]')) chineseLabels.set(node.dataset.i18nAria, node.getAttribute('aria-label'));
-let release = null;
+let snapshot = null;
+try { snapshot = JSON.parse(document.getElementById('release-snapshot')?.textContent || 'null'); } catch { /* Static links remain usable. */ }
+let release = resolveRelease(snapshot, null);
 let language = 'zh';
 
 function initialLanguage() {
@@ -92,7 +94,37 @@ function renderRelease() {
   for (const node of document.querySelectorAll('[data-release-link]')) {
     if (isPublicLink(release?.releaseUrl, 'releases')) node.href = release.releaseUrl;
   }
-  if (!isDownloadReady(release)) return;
+  const ready = isDownloadReady(release);
+  for (const anchor of document.querySelectorAll('[data-installer-download]')) {
+    if (ready) {
+      anchor.href = websiteDownloadURL(release);
+      anchor.setAttribute('download', `SnapTiler-${release.version}-arm64.dmg`);
+      anchor.removeAttribute('aria-disabled');
+      anchor.removeAttribute('tabindex');
+    } else {
+      anchor.removeAttribute('href');
+      anchor.removeAttribute('download');
+      anchor.setAttribute('aria-disabled', 'true');
+      anchor.setAttribute('tabindex', '-1');
+    }
+  }
+  for (const anchor of document.querySelectorAll('[data-backup-download]')) {
+    const url = backupDownloadURL(release);
+    anchor.hidden = !url;
+    if (url) anchor.href = url;
+    else anchor.removeAttribute('href');
+    anchor.textContent = language === 'en' ? 'Download not starting? Try the backup ↗' : '下载未开始？试试备用下载 ↗';
+  }
+  if (!ready) {
+    const link = document.getElementById('download-link');
+    if (link) {
+      link.textContent = language === 'en' ? 'Installer coming soon' : '安装包即将开放';
+      document.getElementById('release-badge').textContent = language === 'en' ? 'RELEASE IN PREPARATION' : '发行准备中';
+      document.getElementById('release-status').textContent = language === 'en' ? 'Downloads open after installer verification.' : '安装包完成验证后开放下载。';
+      document.getElementById('checksum').hidden = true;
+    }
+    return;
+  }
   for (const node of document.querySelectorAll('[data-download-cta]')) node.textContent = language === 'en' ? 'Get it for Mac' : '获取 Mac 版';
   const link = document.getElementById('download-link');
   if (!link) return;
@@ -193,7 +225,29 @@ if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: re
     observer.observe(section);
   }
 }
+let feedbackTimer;
+document.addEventListener('click', event => {
+  const anchor = event.target.closest('a[data-installer-download], a[data-backup-download]');
+  if (!anchor || anchor.getAttribute('aria-disabled') === 'true' || !anchor.hasAttribute('href')) return;
+  // Do not prevent default: the browser's native file download handles the link.
+  const feedback = document.getElementById('download-feedback');
+  if (!feedback) return;
+  feedback.textContent = language === 'en' ? 'Download requested. Check your browser’s downloads.' : '已发起下载，请查看浏览器的下载列表。';
+  const backup = backupDownloadURL(release);
+  if (backup) {
+    const alternative = document.createElement('a');
+    alternative.href = backup; alternative.target = '_blank'; alternative.rel = 'noopener';
+    alternative.textContent = language === 'en' ? 'Try backup' : '备用下载';
+    feedback.append(' ', alternative);
+  }
+  feedback.hidden = false;
+  clearTimeout(feedbackTimer);
+  feedbackTimer = setTimeout(() => { feedback.hidden = true; }, 10000);
+});
+
+// Version refresh enhances the already verified static page. Network failure
+// cannot turn a published download back into a disabled placeholder.
 try {
-  const response = await fetch('./latest.json', { cache: 'no-store' });
-  if (response.ok) { release = await response.json(); renderRelease(); }
-} catch { /* Leave download unavailable. No guessed URL or automatic fallback. */ }
+  const response = await fetch('./latest.json', { cache: 'no-store', signal: AbortSignal.timeout(5000) });
+  if (response.ok) { release = resolveRelease(snapshot, await response.json()); renderRelease(); }
+} catch { /* Keep the verified snapshot and its native download links. */ }

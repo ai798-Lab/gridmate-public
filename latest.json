@@ -15,5 +15,6 @@
   "appleNotarized": true,
   "gatekeeperAccepted": true,
   "downloadedArtifactTested": true,
-  "channel": "beta"
+  "channel": "beta",
+  "backupDownloadUrl": "https://github.com/ai798-Lab/gridmate-public/releases/download/v0.3.7/SnapTiler-0.3.7-arm64.dmg"
 }

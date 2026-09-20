@@ -14,7 +14,7 @@ async function replaceAsync(source, regex, resolveMatch) {
 for (const name of ['app.js', 'studio.js']) {
   const path = resolve(root, name);
   const text = await readFile(path, 'utf8');
-  const result = await replaceAsync(text, /(['"])(\.\/[^'"?]+\.js)(?:\?v=[a-f\d]+)?\1/g,
+  const result = await replaceAsync(text, /(['"])(\.\/[^'"?]+\.m?js)(?:\?v=[a-f\d]+)?\1/g,
     async ([, quote, file]) => `${quote}${file}?v=${await digest(resolve(root, file))}${quote}`);
   await writeFile(path, result);
 }
