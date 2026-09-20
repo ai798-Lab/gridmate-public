@@ -1,16 +1,18 @@
 {
   "schemaVersion": 1,
-  "version": "0.3.0",
-  "status": "pending",
+  "version": "0.3.4",
+  "build": "24",
+  "status": "published",
   "minimumMacOS": "13.0",
   "architecture": "arm64",
-  "releaseUrl": "https://github.com/ai798-Lab/gridmate-public/releases",
+  "releaseUrl": "https://github.com/ai798-Lab/gridmate-public/releases/tag/v0.3.4",
   "supportUrl": "https://github.com/ai798-Lab/gridmate-public/issues",
-  "downloadUrl": null,
-  "sha256": null,
-  "sizeBytes": null,
-  "releasedAt": null,
-  "appleNotarized": false,
-  "gatekeeperAccepted": false,
-  "downloadedArtifactTested": false
+  "downloadUrl": "https://github.com/ai798-Lab/gridmate-public/releases/download/v0.3.4/GridMate-0.3.4-arm64.dmg",
+  "websiteDownloadUrl": "https://snaptiler.com/downloads/GridMate-0.3.4-arm64.dmg",
+  "sha256": "ce30e8df191bee32ee593d8004e2b49d0dbec609e720714256046ef273d76d06",
+  "sizeBytes": 1652283,
+  "releasedAt": "2026-09-20",
+  "appleNotarized": true,
+  "gatekeeperAccepted": true,
+  "downloadedArtifactTested": true
 }

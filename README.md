@@ -1,6 +1,6 @@
 # 窗多多 / SnapTiler website & public downloads
 
-This repository contains the public bilingual website and, when available, verified macOS release assets. It does **not** contain the app's private development history or internal notes.
+This repository contains the public bilingual website and verified macOS release assets. It does **not** contain the app's private development history or internal notes.
 
 The app is a native Mac window manager with 21 layouts, up to 12 window zones, and 32 language/region options. The initial distribution target is Apple silicon, macOS 13 or later. See the website for known limitations and release availability.
 
@@ -18,7 +18,7 @@ Preview at `http://127.0.0.1:8185`. Test both Chinese and English, desktop and m
 
 ## Publish a release
 
-The default `release.json` state is `pending` and download links remain unavailable. Do not add a download URL until the artifact has passed Developer ID signing, Apple notarization, Gatekeeper assessment, and download-to-install verification. Upload immutable versioned assets to this repository's GitHub Releases; do not reuse a URL for a different binary.
+The current release is **0.3.4, build 24**, published on 2026-09-20. The notarized Apple silicon DMG is served at `https://snaptiler.com/downloads/GridMate-0.3.4-arm64.dmg` with an identical immutable GitHub Release asset. Its SHA-256 and byte size are recorded in `release.json`. Future unverified candidates must use the `pending` state, which disables download links. Do not add a download URL until the artifact has passed Developer ID signing, Apple notarization, Gatekeeper assessment, and download-to-install verification. Upload immutable versioned assets to this repository's GitHub Releases; do not reuse a URL for a different binary.
 
 Set the exact version, file size, SHA-256, date, public URLs, and all verification flags in `release.json` only after those checks. Run the tests and checker again before publishing. The website never guesses download links or exposes a development build as a verified release.
 
@@ -36,7 +36,7 @@ Keep app signing keys, notarization credentials, internal notes, private source,
 PORT=8201 npm run dev
 ```
 
-App 截图放在 `assets/screenshots/`，来源和版本见同目录 `manifest.json`。当前六张原始截图均来自正式安装版 0.3.4（24），2026-09-20 拍摄；切换网站语言时同步切换中文或英文界面截图。图片 URL 带版本标识，避免旧缓存。点击图片可查看未经重绘的原始大图。布局交互明确标为示意，不操作访客的真实窗口。
+产品区使用 `product-preview.js` / `product-preview.css` 重绘 v0.3.4 的布局库、通用设置、窗口与布局界面。文字、线条和控件随显示分辨率清晰渲染；支持布局选择、开关、间距与边距滑块，并同步中英文。界面明确标为交互示意，不操作访客的真实窗口。旧截图仅在 `assets/screenshots/` 保留来源存档，首页不再显示它们。
 
 导航与按钮采用完整、简短的单行措辞，不使用省略号。英文小屏入口为「Downloads」「Download status」「See the app」。说明段落正常换行，避免为强制单行而缩小正文。验收宽度覆盖 320、390 和 1200 CSS 像素，另检查 1440 像素宽的布局边界。
 
@@ -55,6 +55,6 @@ App 截图放在 `assets/screenshots/`，来源和版本见同目录 `manifest.j
 
 首页采用独立 `studio.css` / `studio.js`，延续现有 `app.js` 中的双语与下载验证。`window-scene.js` 是 Three.js 源码，`window-scene.bundle.js` 是生产使用的压缩产物。修改 3D 源码后必须运行 `npm run build:scene`，再做浏览器验收。第三方素材与许可证位于 `assets/vendor/three/`、`assets/icons/`、`assets/fonts/`；插画为本项目原创生成图，WebP 位于 `assets/illustrations/`。
 
-本机预览：`PORT=8203 npm run dev`。Hero 支持三种窗口排列、鼠标轻视差及暂停；滚出视区和后台标签页会停止渲染；系统减少动态效果启用时使用静止布局；WebGL 不可用时显示静态插画。产品区三个标签切换原始 App 截图，并跟随网站中英文选择；下方布局区支持 2 / 4 / 6 / 12 分区演示。主站与隐私、品牌页的中性视觉使用一致字体与基础颜色，品牌母版保持不变。
+本机预览：`PORT=8203 npm run dev`。Hero 支持三种窗口排列、鼠标轻视差及暂停；滚出视区和后台标签页会停止渲染；系统减少动态效果启用时使用静止布局；WebGL 不可用时显示静态插画。产品区三个标签切换重绘的交互原型，并跟随网站中英文选择；下方布局区支持 2 / 4 / 6 / 12 分区演示。主站与隐私、品牌页的中性视觉使用一致字体与基础颜色，品牌母版保持不变。
 
-本版于 2026-09-20 获得正式域名发布授权，使用最后确认的蓝灰色视觉与构建 24 中英文原始截图。部署目标为 `snaptiler.com`，公开仓库仅同步 `website/` 中经过检查的官网文件。App 安装包独立管理；官网设计更新不改变 `release.json` 的发行验证状态。
+本版于 2026-09-20 获得正式域名与安装包上线授权，使用蓝灰色视觉、清晰的界面重绘，以及避免窗口交叠的 Hero 动画。部署目标为 `snaptiler.com`，公开仓库仅同步 `website/` 中经过检查的官网文件。0.3.4（24）已通过 Developer ID 签名、App 与 DMG 的 Apple 公证、Gatekeeper 检查、公开下载校验、正式安装和独立测试窗口移动/撤销验证。当前发行面向 Apple silicon；其他硬件和每个最低系统版本未逐台覆盖。官网首页和下载区均显示版本与构建号，下载区提供日期、大小、安装步骤及校验值。

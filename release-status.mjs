@@ -24,3 +24,11 @@ export function isDownloadReady(release) {
     release.releaseUrl === `${PUBLIC_REPOSITORY}/releases/tag/${tag}` &&
     release.downloadUrl === `${PUBLIC_REPOSITORY}/releases/download/${tag}/GridMate-${release.version}-arm64.dmg`;
 }
+
+// The website may serve a byte-identical installer on its own domain. Keep the
+// existing GitHub release URL in the manifest for already-installed app clients.
+export function websiteDownloadURL(release) {
+  if (!isDownloadReady(release)) return null;
+  const expected = `https://snaptiler.com/downloads/GridMate-${release.version}-arm64.dmg`;
+  return release.websiteDownloadUrl === expected ? expected : release.downloadUrl;
+}

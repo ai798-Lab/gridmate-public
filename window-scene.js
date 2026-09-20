@@ -1,4 +1,5 @@
 import * as THREE from './assets/vendor/three/three.module.js';
+import { createMotion } from './window-motion.js';
 
 export async function startScene(host) {
   const canvas = document.getElementById('hero-canvas');
@@ -60,7 +61,7 @@ export async function startScene(host) {
   for(let x=-8;x<=8;x+=.3)for(let y=-3;y<=3;y+=.3)dots.push(x,y,-1.7);
   const dotGeometry=new THREE.BufferGeometry();dotGeometry.setAttribute('position',new THREE.Float32BufferAttribute(dots,3));
   scene.add(new THREE.Points(dotGeometry,new THREE.PointsMaterial({color:0xb9c9de,size:.7,transparent:true,opacity:.35,sizeAttenuation:false})));
-  const panels=[];
+  const panels=[], bodies=[];
   // A bounded, feathered contact shadow travels with each window. Unlike the
   // old distant receiving plane, it cannot project beyond the camera framing.
   const shadowCanvas=document.createElement('canvas');shadowCanvas.width=768;shadowCanvas.height=512;
@@ -78,31 +79,24 @@ export async function startScene(host) {
   for(let i=0;i<4;i++){
     const group=new THREE.Group();
     const shadow=new THREE.Mesh(shadowGeometry,shadowMaterial);shadow.position.set(.04,-.09,-.13);group.add(shadow);
-    const body=new THREE.Mesh(geometry,sideMaterial);group.add(body);
+    const body=new THREE.Mesh(geometry,sideMaterial);group.add(body);bodies.push(body);
     const front=new THREE.Mesh(face,new THREE.MeshBasicMaterial({map:texture(i)}));front.position.z=.104;group.add(front);
     assembly.add(group);panels.push(group);
   }
-  // Geometric window layouts; all coordinates stay inside the aspect-aware camera.
-  const states={
-    float:[[-3, .72,.0,-.15,-.25,-.12,.98],[1.34,1.04,-.4,.18,-.23,.13,.95],[-1.25,-1.14,.7,.1,.18,-.08,.96],[3.08,-.83,.25,-.12,-.25,.08,.80]],
-    focus:[[-2.24,.05,.3,.03,-.045,0,1.16],[2.53,1.50,0,0,0,0,.59],[2.53,-.1,0,0,0,0,.59],[2.53,-1.7,0,0,0,0,.59]],
-    grid:[[-2.3,1.41,.1,0,0,0,1],[2.3,1.41,.1,0,0,0,1],[-2.3,-1.41,.1,0,0,0,1],[2.3,-1.41,.1,0,0,0,1]]
-  };
-  let mode='float',paused=false,visible=true,disposed=false,contextLost=false,raf=0,last=0,elapsed=0,transitionStart=0;
-  let previous=states.float.map(v=>v.slice());
-  let progress=1;
-  const pointer=new THREE.Vector2(),tilt=new THREE.Vector2();
   const reduce=matchMedia('(prefers-reduced-motion: reduce)');
+  const motion=createMotion(reduce.matches?'grid':'float');
+  let paused=false,visible=true,disposed=false,contextLost=false,raf=0,last=0,elapsed=0;
+  const pointer=new THREE.Vector2(),tilt=new THREE.Vector2();
   const labels={float:['窗口自由展开','Windows unfolded'],focus:['主窗口与三个辅助窗口','One focus, three supporting windows'],grid:['四个窗口，各就各位','Four windows, all in place']};
-  function status(){document.getElementById('scene-status').textContent=labels[mode][document.documentElement.lang==='en'?1:0];}
+  function status(){document.getElementById('scene-status').textContent=labels[motion.requested][document.documentElement.lang==='en'?1:0];}
   function pauseLabel(){const english=document.documentElement.lang==='en';const button=document.getElementById('motion-toggle');button.setAttribute('aria-pressed',String(paused));button.setAttribute('aria-label',paused?(english?'Resume animation':'继续动画'):(english?'Pause animation':'暂停动画'));button.querySelector('img').src=`./assets/icons/${paused?'play':'pause'}.svg`;}
   function pick(value){
-    previous=panels.map(p=>[p.position.x,p.position.y,p.position.z,p.rotation.x,p.rotation.y,p.rotation.z,p.scale.x]);mode=value;progress=0;transitionStart=elapsed;
-    for(const b of document.querySelectorAll('[data-scene]'))b.setAttribute('aria-pressed',String(b.dataset.scene===mode));
-    host.dataset.layout=mode;status();requestFrame();
+    motion.request(value,paused||reduce.matches);
+    for(const b of document.querySelectorAll('[data-scene]'))b.setAttribute('aria-pressed',String(b.dataset.scene===motion.requested));
+    host.dataset.layout=motion.requested;status();requestFrame();
   }
   for(const b of document.querySelectorAll('[data-scene]'))b.addEventListener('click',()=>{clearTimeout(introTimer);pick(b.dataset.scene);});
-  document.getElementById('hero-try').addEventListener('click',()=>{clearTimeout(introTimer);pick(mode==='grid'?'float':'grid');document.getElementById('hero-exhibit').scrollIntoView({behavior:reduce.matches?'instant':'smooth',block:'center'});});
+  document.getElementById('hero-try').addEventListener('click',()=>{clearTimeout(introTimer);pick(motion.requested==='grid'?'float':'grid');document.getElementById('hero-exhibit').scrollIntoView({behavior:reduce.matches?'instant':'smooth',block:'center'});});
   document.getElementById('motion-toggle').addEventListener('click',()=>{paused=!paused;clearTimeout(introTimer);pauseLabel();requestFrame();});
   document.addEventListener('site-language',()=>{status();pauseLabel();});
   host.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const r=host.getBoundingClientRect();pointer.set((e.clientX-r.left)/r.width-.5,(e.clientY-r.top)/r.height-.5);requestFrame();});
@@ -111,29 +105,44 @@ export async function startScene(host) {
   const observer=new ResizeObserver(resize);observer.observe(host);
   const intersection=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;if(visible){last=0;requestFrame();}else{cancelAnimationFrame(raf);raf=0;}},{threshold:.02});intersection.observe(host);
   document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0;}else{last=0;requestFrame();}});
-  reduce.addEventListener('change',()=>{clearTimeout(introTimer);progress=1;pointer.set(0,0);requestFrame();});
+  reduce.addEventListener('change',()=>{clearTimeout(introTimer);motion.request(motion.requested,true);pointer.set(0,0);requestFrame();});
+  // Opt-in browser QA records bounds of the actual meshes passed to WebGL.
+  // It stays out of the normal rendering loop unless the audit URL is used.
+  const auditEnabled=new URLSearchParams(location.search).has('scene-audit');
+  const audit={frames:0,overlaps:0,clipped:0,minGap:Infinity};
+  function auditFrame(){
+    assembly.updateMatrixWorld(true);
+    const boxes=bodies.map(body=>new THREE.Box3().setFromObject(body));
+    for(let i=0;i<boxes.length;i++)for(let j=i+1;j<boxes.length;j++){
+      const a=boxes[i],b=boxes[j];
+      const gap=Math.max(b.min.x-a.max.x,a.min.x-b.max.x,b.min.y-a.max.y,a.min.y-b.max.y);
+      audit.minGap=Math.min(audit.minGap,gap);if(gap<0)audit.overlaps++;
+    }
+    for(const panel of panels){const b=new THREE.Box3().setFromObject(panel);if(b.min.x<camera.left||b.max.x>camera.right||b.min.y<camera.bottom||b.max.y>camera.top)audit.clipped++;}
+    audit.frames++;host.dataset.audit=JSON.stringify({...audit,minGap:Number(audit.minGap.toFixed(4))});
+  }
   function requestFrame(){if(!raf&&!disposed&&!contextLost&&visible&&!document.hidden)raf=requestAnimationFrame(frame);}
   function frame(now){
-    raf=0;const dt=Math.min((now-(last||now))/1000,.04);last=now;elapsed+=dt;
+    raf=0;const dt=Math.min((now-(last||now))/1000,.04);last=now;
     const moving=!paused&&!reduce.matches;
-    if(progress<1)progress=moving?Math.min(1,(elapsed-transitionStart)/1.15):1;
-    const eased=1-Math.pow(1-progress,4);
+    if(moving)elapsed+=dt;
+    const poses=motion.step(dt,elapsed,moving);
     for(let i=0;i<panels.length;i++){
-      const to=states[mode][i],from=previous[i],v=to.map((n,j)=>from[j]+(n-from[j])*eased),p=panels[i];
-      const float=moving&&mode==='float'?Math.sin(elapsed*.6+i*1.6)*.065:0;
-      p.position.set(v[0],v[1]+float,v[2]);p.rotation.set(v[3],v[4],v[5]);p.scale.setScalar(v[6]);
+      const v=poses[i],p=panels[i];
+      p.position.set(v[0],v[1],v[2]);p.rotation.set(v[3],v[4],v[5]);p.scale.setScalar(v[6]);
     }
-    tilt.lerp(moving?pointer:new THREE.Vector2(),.05);
+    if(moving)tilt.lerp(pointer,.05);
     assembly.rotation.y=tilt.x*.075;assembly.rotation.x=tilt.y*.045;
+    if(auditEnabled)auditFrame();
     renderer.render(scene,camera);
     canvas.dataset.frames=String(Number(canvas.dataset.frames||0)+1);
-    host.dataset.settled=String(progress===1);
-    if(progress<1||(moving&&(mode==='float'||tilt.distanceTo(pointer)>.00005)))requestFrame();
+    host.dataset.settled=String(motion.settled);host.dataset.phase=motion.phase;host.dataset.currentLayout=motion.current;
+    if(moving&&(!motion.settled||motion.current==='float'||tilt.distanceTo(pointer)>.00005))requestFrame();
   }
-  panels.forEach((p,i)=>{const v=states.float[i];p.position.set(v[0],v[1],v[2]);p.rotation.set(v[3],v[4],v[5]);p.scale.setScalar(v[6]);});
+  panels.forEach((p,i)=>{const v=motion.poses[i];p.position.set(v[0],v[1],v[2]);p.rotation.set(v[3],v[4],v[5]);p.scale.setScalar(v[6]);});
   let introTimer=setTimeout(()=>{if(!paused&&!reduce.matches&&visible)pick('grid');},2400);
-  if(reduce.matches){mode='grid';previous=states.grid.map(v=>v.slice());for(const b of document.querySelectorAll('[data-scene]'))b.setAttribute('aria-pressed',String(b.dataset.scene==='grid'));}
-  resize();status();pauseLabel();host.classList.add('is-ready');host.dataset.renderer='three-webgl';host.dataset.layout=mode;
+  for(const b of document.querySelectorAll('[data-scene]'))b.setAttribute('aria-pressed',String(b.dataset.scene===motion.requested));
+  resize();status();pauseLabel();host.classList.add('is-ready');host.dataset.renderer='three-webgl';host.dataset.layout=motion.requested;
   canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();contextLost=true;cancelAnimationFrame(raf);raf=0;host.classList.remove('is-ready');host.dataset.renderer='static-fallback';document.getElementById('scene-status').textContent=document.documentElement.lang==='en'?'Static illustration':'静态插画模式';document.querySelector('.scene-controls').hidden=true;document.getElementById('motion-toggle').hidden=true;document.getElementById('hero-try').hidden=true;});
   window.addEventListener('pageshow',()=>{last=0;requestFrame();});
   window.addEventListener('pagehide',e=>{if(e.persisted){cancelAnimationFrame(raf);raf=0;return;}disposed=true;clearTimeout(introTimer);cancelAnimationFrame(raf);observer.disconnect();intersection.disconnect();geometry.dispose();face.dispose();shadowTexture.dispose();shadowGeometry.dispose();shadowMaterial.dispose();contents.forEach(t=>t.dispose());renderer.dispose();});

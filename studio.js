@@ -1,3 +1,4 @@
+import { initProductPreview } from './product-preview.js?v=6363e82fbc67';
 const en = () => document.documentElement.lang === 'en';
 const reduce = matchMedia('(prefers-reduced-motion: reduce)');
 const menu = document.querySelector('.menu-toggle');
@@ -8,28 +9,7 @@ nav.addEventListener('click', e => { if (e.target.closest('a')) closeMenu(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 matchMedia('(min-width: 761px)').addEventListener('change', e => { if (e.matches) closeMenu(); });
 
-// Keep the selected real screenshot in sync with the page language.
-let product = 'layout-library';
-const shot = document.getElementById('product-shot');
-const labels = { 'layout-library': ['布局库', 'Layout library'], 'settings-general': ['通用设置', 'General settings'], 'settings-layouts': ['窗口与间距', 'Windows & spacing'] };
-function updateShot() {
-  const path = `./assets/screenshots/${product}`;
-  shot.dataset.shotZh = `${path}-zh.png?v=0.3.4-24`;
-  shot.dataset.shotEn = `${path}-en.png?v=0.3.4-24`;
-  shot.dataset.altZh = `窗多多${labels[product][0]}实际截图`;
-  shot.dataset.altEn = `SnapTiler ${labels[product][1]}, actual app screenshot`;
-  shot.src = en() ? shot.dataset.shotEn : shot.dataset.shotZh;
-  shot.alt = en() ? shot.dataset.altEn : shot.dataset.altZh;
-  shot.width = product === 'layout-library' ? 1440 : 1560;
-  shot.height = product === 'layout-library' ? 944 : 1164;
-  shot.parentElement.href = shot.src;
-  shot.parentElement.setAttribute('aria-label', `${shot.alt} · ${en() ? 'Open original image' : '查看原始大图'}`);
-}
-for (const button of document.querySelectorAll('[data-product]')) button.addEventListener('click', () => {
-  product = button.dataset.product;
-  for (const other of document.querySelectorAll('[data-product]')) other.setAttribute('aria-pressed', String(other === button));
-  updateShot();
-});
+initProductPreview();
 
 let count = 4;
 function setLayout(value) {
@@ -54,7 +34,7 @@ for (const button of document.querySelectorAll('[data-layout]')) button.addEvent
   setLayout(Number(button.dataset.layout));
 });
 setLayout(4);
-document.addEventListener('site-language', () => { updateShot(); setLayout(count); document.querySelector('[data-illustration]').alt = en() ? 'An architectural sculpture of porcelain white and pale blue window frames' : '白色与浅蓝色的窗口框架构成一组轻盈的建筑模型'; });
+document.addEventListener('site-language', () => { setLayout(count); document.querySelector('[data-illustration]').alt = en() ? 'An architectural sculpture of porcelain white and pale blue window frames' : '白色与浅蓝色的窗口框架构成一组轻盈的建筑模型'; });
 document.querySelector('[data-illustration]').alt = en() ? 'An architectural sculpture of porcelain white and pale blue window frames' : '白色与浅蓝色的窗口框架构成一组轻盈的建筑模型';
 
 const revealObserver = new IntersectionObserver(entries => {
@@ -69,7 +49,7 @@ reduce.addEventListener('change', e => { document.body.classList.toggle('motion-
 // Main content and downloads never wait for the optional 3D renderer.
 const sceneHost = document.getElementById('window-scene');
 try {
-  const { startScene } = await import('./window-scene.bundle.js?v=92640e73c0a5');
+  const { startScene } = await import('./window-scene.bundle.js?v=2a76d8a2a93d');
   await startScene(sceneHost);
 } catch (error) {
   sceneHost.dataset.renderer = 'static-fallback';

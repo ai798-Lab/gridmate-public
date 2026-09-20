@@ -1,4 +1,4 @@
-import { isDownloadReady, isPublicLink } from './release-status.mjs';
+import { isDownloadReady, isPublicLink, websiteDownloadURL } from './release-status.mjs?v=e8a1e0013aa4';
 
 const english = {
   'nav.product':'The app', 'product.label':'LAYOUT LIBRARY', 'product.version':'v0.3.4 · App screenshot', 'product.preparing':'Capturing the new app interface', 'product.caption':'Choose a layout. See the result before you arrange.', 'product.how':'See how it works', 'product.provenance':'Actual SnapTiler v0.3.4 · Captured September 20, 2026 · Click a screenshot to enlarge', 'workflow.title':'Fits your Mac. Fits your day.', 'workflow.intro':'A familiar Mac interface.<br>A little more room to focus.', 'workflow.settingsTitle':'Make yourself at home.', 'workflow.settingsBody':'Language, spacing, shortcuts, and excluded apps. Clear settings that make the everyday feel effortless.', 'workflow.layoutTitle':'Leave a little breathing room.', 'workflow.layoutBody':'Adjust gaps and screen margins. Arrange the whole screen or just one window, and find your own rhythm.',
@@ -55,7 +55,7 @@ Object.assign(english, {
  'studio.feature2':'A familiar kind of effortless.', 'studio.feature2body':'Call up your layouts with a shortcut, or drag a window to the edge. A natural rhythm, with mouse or keyboard.',
  'studio.storyTitle':'Room to think.<br>Built right in.', 'studio.storyBody':'Your screen doesn’t need more things.<br>Just the right things, in the right places.<br>A little breathing room changes everything.', 'studio.storyLink':'Find your working arrangement',
  'studio.productTitle':'Feels like your Mac.<br>Works like you do.', 'studio.productIntro':'Choose a layout. Preview the arrangement.<br>Set the spacing and exclusions to make it yours.', 'studio.productTabs':'Explore the app interface',
- 'studio.tab1':'Layout library', 'studio.tab2':'General', 'studio.tab3':'Spacing', 'studio.provenance':'v0.3.4 · Build 23 · Actual app screenshots · Click to see the original',
+ 'studio.tab1':'Layout library', 'studio.tab2':'General', 'studio.tab3':'Spacing', 'studio.provenance':'Redrawn from v0.3.4 · Try the layouts, switches, and sliders',
  'studio.layoutTitle':'Different work.<br>Different ways to make room.', 'studio.layoutIntro':'Compare side by side, write across windows,<br>or spread out on a larger screen. Try a layout below.',
  'studio.six':'Six-up', 'studio.twelve':'Twelve zones', 'studio.layoutStatus':'Previewing 4 window zones',
  'studio.layoutNote':'Interactive illustration, not an app screenshot. A large screen is recommended for 9 or 12 zones. App minimum window sizes may limit arrangements.',
@@ -63,6 +63,7 @@ Object.assign(english, {
  'studio.languagesTitle':'In words that feel like home.', 'studio.languagesBody':'32 language and region options. Follow your system, or switch in settings.', 'studio.allLanguages':'Explore all languages',
  'studio.privacyTitle':'Your desktop stays on your Mac.', 'studio.privacyBody':'No account, ads, or analytics in the app. Preferences and window arrangement stay local.',
  'studio.displayTitle':'One screen, considered.', 'studio.displayBody':'Arrange visible windows on your target display. Leave the rhythm of your other screens intact.',
+ 'studio.productPreview':'Interactive product interface illustration', 'download.install':'Open the DMG → drag to Applications → launch SnapTiler.<br>On first use, follow the guide to allow Accessibility access.', 'download.checksum':'Installer checksum',
  'studio.support':'Tell us what’s on your mind', 'studio.downloadTitle':'A clearer desktop.<br>A little more headspace.', 'studio.downloadDescription':'SnapTiler. Make room for your next good idea.'
 });
 
@@ -83,7 +84,7 @@ function initialLanguage() {
 function renderRelease() {
   for (const node of document.querySelectorAll('[data-release-version]')) {
     node.hidden = !isDownloadReady(release);
-    node.textContent = typeof release?.version === 'string' && /^\d+\.\d+\.\d+$/.test(release.version) ? release.version : '';
+    node.textContent = isDownloadReady(release) ? `v${release.version}${release.build ? (language === 'en' ? ` · Build ${release.build}` : ` · 构建 ${release.build}`) : ''}` : '';
   }
   for (const node of document.querySelectorAll('[data-support-link]')) {
     if (isPublicLink(release?.supportUrl, 'issues')) node.href = release.supportUrl;
@@ -95,15 +96,15 @@ function renderRelease() {
   for (const node of document.querySelectorAll('[data-download-cta]')) node.textContent = language === 'en' ? 'Get it for Mac' : '获取 Mac 版';
   const link = document.getElementById('download-link');
   if (!link) return;
-  link.href = release.downloadUrl;
+  link.href = websiteDownloadURL(release);
+  link.setAttribute('download', `GridMate-${release.version}-arm64.dmg`);
   link.removeAttribute('aria-disabled');
   link.textContent = language === 'en' ? 'Download for Mac ↓' : '下载 Apple silicon 版 ↓';
   document.getElementById('release-badge').textContent = language === 'en' ? 'NOTARIZED · EARLY RELEASE' : '已通过 Apple 公证 · 早期版本';
-  document.getElementById('release-status').textContent = language === 'en' ? `Version ${release.version} · ${(release.sizeBytes / 1048576).toFixed(1)} MB. Developer ID signed and notarized by Apple. See release notes for known limitations.` : `版本 ${release.version} · ${(release.sizeBytes / 1048576).toFixed(1)} MB。已完成 Developer ID 签名与 Apple 公证；兼容性限制见发行说明。`;
+  document.getElementById('release-status').textContent = language === 'en' ? `Version ${release.version} · Build ${release.build} · ${(release.sizeBytes / 1048576).toFixed(1)} MB · ${release.releasedAt}. Developer ID signed and notarized by Apple.` : `版本 ${release.version} · 构建 ${release.build} · ${(release.sizeBytes / 1048576).toFixed(1)} MB · ${release.releasedAt}。已完成 Developer ID 签名与 Apple 公证。`;
   document.querySelector('.download-action [data-release-link]').hidden = false;
   const checksum = document.getElementById('checksum');
-  checksum.hidden = false;
-  checksum.textContent = `SHA-256: ${release.sha256}`;
+  if (checksum) { checksum.hidden = false; checksum.textContent = `SHA-256: ${release.sha256}`; }
 }
 
 function setLanguage(value, persist = false) {

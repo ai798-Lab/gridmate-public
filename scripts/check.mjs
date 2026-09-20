@@ -2,6 +2,7 @@ import { readFile, readdir, access } from 'node:fs/promises';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { isDownloadReady, isPublicLink } from '../release-status.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -28,7 +29,15 @@ assert.equal([...languages.matchAll(/<li\b/g)].length, 32, 'Language count must 
 assert(/id="download-link"\s+aria-disabled="true"/.test(html), 'Download must default to disabled');
 const release = JSON.parse(await readFile(resolve(root, 'release.json'), 'utf8'));
 assert(['pending', 'published'].includes(release.status), 'Unknown release state');
-if (release.status === 'published') assert(isDownloadReady(release), 'Published release fails acceptance gates');
+if (release.status === 'published') {
+  assert(isDownloadReady(release), 'Published release fails acceptance gates');
+  if (release.websiteDownloadUrl) {
+    assert.equal(release.websiteDownloadUrl, `https://snaptiler.com/downloads/GridMate-${release.version}-arm64.dmg`);
+    const installer = await readFile(resolve(root, `downloads/GridMate-${release.version}-arm64.dmg`));
+    assert.equal(installer.byteLength, release.sizeBytes, 'Website installer size differs from verified release');
+    assert.equal(createHash('sha256').update(installer).digest('hex'), release.sha256, 'Website installer differs from verified release');
+  }
+}
 else assert.equal(release.downloadUrl, null, 'Pending release cannot contain a download URL');
 if (release.supportUrl) assert(isPublicLink(release.supportUrl, 'issues'), 'Invalid support destination');
 if (release.releaseUrl) assert(isPublicLink(release.releaseUrl, 'releases'), 'Invalid release destination');
