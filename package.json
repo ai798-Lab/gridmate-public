@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "node scripts/serve.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check": "node scripts/check.mjs"
+    "check": "node scripts/check.mjs",
+    "build:scene": "npm exec --yes --package=esbuild@0.28.2 -- esbuild window-scene.js --bundle --format=esm --minify --outfile=window-scene.bundle.js"
   }
 }

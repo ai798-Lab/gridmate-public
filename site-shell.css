@@ -1,0 +1,28 @@
+@font-face{font-family:Aspekta;src:url('./assets/fonts/AspektaVF.woff2') format('woff2');font-weight:100 900;font-display:swap}
+
+:root{font-family:Aspekta,-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;background:#fff;color:#212429}
+
+body{background:#fff;color:#212429}
+.site-header,.guide-header{background:#fff;border-color:#e1e7ef}
+.policy h1,.guide-hero h1{font-weight:400;color:#212429;letter-spacing:-1.8px}
+.policy h2,h2,h3{font-weight:450;color:#292e35}
+.policy p,.guide-hero p,.section-top p{color:#68788e}
+.policy a{color:#48515d}
+.policy-date,.kicker,.eyebrow{color:#6a7686}
+.policy{max-width:800px}
+.language-switch{white-space:nowrap}
+.guide-hero{background:none}
+.download{background:#212429;border-radius:6px;font-weight:450}
+.download:hover{background:#38404c}
+.logo-card,.rules-grid article{border-color:#dfe3e8;border-radius:8px}
+.logo-card footer{border-color:#dfe3e8}
+.type-grid article,.material{background:#f0f2f5;border-radius:8px}
+.variant-switch{background:#eaecf0;border-radius:6px}
+.variant-switch button{border-radius:4px}
+.palette article>div{border-radius:8px}
+.site-footer,.guide-footer{color:#647080;border-color:#dfe3e8}
+.guide-header img{width:122px;height:auto}
+
+
+/* Floating mark keeps its natural aspect ratio in every brand sample. */
+.logo-preview img[data-symbol]{width:150px;height:150px;object-fit:contain}

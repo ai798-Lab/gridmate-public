@@ -34,11 +34,37 @@ const english = {
   'privacy.app.title':'1. What the app accesses', 'privacy.app.body':'With Accessibility permission, SnapTiler reads app and window metadata such as the owning process, window position, size, state, and controls, then changes positions and sizes to arrange windows. Diagnostic commands can also read window titles. It does not capture screenshots or read document text to perform window arrangements.',
   'privacy.local.title':'2. What stays on your Mac', 'privacy.local.body':'Layout preferences, gaps, margins, excluded apps, and related settings are stored in the local Application Support/GridMate folder. The language choice is stored in app preferences. Undo information is held in memory for the running session. The current app has no account system, advertising SDK, or code that uploads this information.',
   'privacy.logs.title':'3. Diagnostics and feedback', 'privacy.logs.body':'Release builds disable the file-based mouse interaction debug log. macOS may retain operational logs, such as launch, arrangement counts, and errors. Development builds and manually run diagnostics can produce more detailed output. Feedback is voluntary; please remove window titles, personal file names, and private information before sharing screenshots or logs. Public GitHub issues are visible to everyone.',
-  'privacy.website.title':'4. This website and downloads', 'privacy.website.body':'This website does not add analytics scripts, advertising trackers, or third-party web fonts. It uses a local browser preference to remember your website language; blocking storage does not prevent access. When hosted on GitHub Pages, GitHub records visitors’ IP addresses for security. GitHub also serves downloads and feedback pages under its own privacy statement.', 'privacy.github':'Read GitHub’s privacy statement ↗',
+  'privacy.website.title':'4. This website and downloads', 'privacy.website.body':'This website does not use analytics scripts, advertising trackers, or external font services. Fonts, icons, and illustrations are served with this website. It uses a local browser preference to remember your website language; blocking storage does not prevent access. When hosted on GitHub Pages, GitHub records visitors’ IP addresses for security. GitHub also serves downloads and feedback pages under its own privacy statement.', 'privacy.github':'Read GitHub’s privacy statement ↗',
   'privacy.control.title':'5. Your choices', 'privacy.control.body':'You can revoke SnapTiler’s Accessibility permission in System Settings and turn off launch at login. Automatic update checks can also be turned off in About. Removing the app does not necessarily remove local settings. To remove preferences, quit the app first, then remove only SnapTiler’s configuration and preferences. Clearing this website’s browser storage resets the website language preference.',
   'privacy.updates.title':'6. Update checks', 'privacy.updates.body':'The current version offers daily checks, enabled by default and optional, while the app is running. It reads a public version manifest on GitHub Pages without sending window data, logs, device identifiers or account information. Checks use an ephemeral session without persistent cookies; GitHub still receives normal connection information such as IP addresses. Check times, reminders and skipped versions stay on your Mac. You initiate downloads and installation. Older installed versions do not gain this feature automatically.',
   'privacy.contact.title':'7. Questions and updates', 'privacy.contact.body':'Use SnapTiler’s public support entry for general questions, without posting personal information. You can also search for the WeChat official account ai798Lab and leave a message; information you send is subject to WeChat’s privacy rules. This notice describes the current version; if accounts, payments, or analytics are introduced, the notice and relevant choices must be updated before those features are launched.', 'privacy.support':'SnapTiler support ↗'
 };
+
+Object.assign(english, {
+ 'studio.get':'Downloads', 'studio.menu':'Open navigation',
+ 'studio.eyebrow':'MADE FOR MAC. ROOM FOR THOUGHT.',
+ 'studio.line1':'Windows in place.', 'studio.line2':'Ideas in motion.',
+ 'studio.description':'Less switching. More seeing.<br>Bring your windows together, and give your ideas room to unfold.',
+ 'studio.try':'See it come together', 'studio.exhibit':'A little order, a clearer desktop',
+ 'studio.scene':'Interactive three-dimensional illustration of window arrangements',
+ 'studio.controls':'Choose an illustrated layout', 'studio.float':'Unfold', 'studio.focus':'Focus', 'studio.grid':'Four-up',
+ 'studio.pause':'Pause animation', 'studio.caption':'Interactive concept · Your real windows stay untouched',
+ 'studio.native':'Native to Mac<br>At home in your menu bar',
+ 'studio.featuresTitle':'Less to arrange.<br>More to get into.',
+ 'studio.featuresIntro':'Research, code, and notes. All in sight.<br>Keep your attention on the work, and let everything else fall into place.',
+ 'studio.feature2':'A familiar kind of effortless.', 'studio.feature2body':'Call up your layouts with a shortcut, or drag a window to the edge. A natural rhythm, with mouse or keyboard.',
+ 'studio.storyTitle':'Room to think.<br>Built right in.', 'studio.storyBody':'Your screen doesn’t need more things.<br>Just the right things, in the right places.<br>A little breathing room changes everything.', 'studio.storyLink':'Find your working arrangement',
+ 'studio.productTitle':'Feels like your Mac.<br>Works like you do.', 'studio.productIntro':'Choose a layout. Preview the arrangement.<br>Set the spacing and exclusions to make it yours.', 'studio.productTabs':'Explore the app interface',
+ 'studio.tab1':'Layout library', 'studio.tab2':'General', 'studio.tab3':'Spacing', 'studio.provenance':'v0.3.4 · Build 23 · Actual app screenshots · Click to see the original',
+ 'studio.layoutTitle':'Different work.<br>Different ways to make room.', 'studio.layoutIntro':'Compare side by side, write across windows,<br>or spread out on a larger screen. Try a layout below.',
+ 'studio.six':'Six-up', 'studio.twelve':'Twelve zones', 'studio.layoutStatus':'Previewing 4 window zones',
+ 'studio.layoutNote':'Interactive illustration, not an app screenshot. A large screen is recommended for 9 or 12 zones. App minimum window sizes may limit arrangements.',
+ 'studio.detailsTitle':'A small app.<br>A thoughtful set of details.',
+ 'studio.languagesTitle':'In words that feel like home.', 'studio.languagesBody':'32 language and region options. Follow your system, or switch in settings.', 'studio.allLanguages':'Explore all languages',
+ 'studio.privacyTitle':'Your desktop stays on your Mac.', 'studio.privacyBody':'No account, ads, or analytics in the app. Preferences and window arrangement stay local.',
+ 'studio.displayTitle':'One screen, considered.', 'studio.displayBody':'Arrange visible windows on your target display. Leave the rhythm of your other screens intact.',
+ 'studio.support':'Tell us what’s on your mind', 'studio.downloadTitle':'A clearer desktop.<br>A little more headspace.', 'studio.downloadDescription':'SnapTiler. Make room for your next good idea.'
+});
 
 const chinese = new Map();
 for (const node of document.querySelectorAll('[data-i18n]')) chinese.set(node.dataset.i18n, node.innerHTML);
@@ -93,7 +119,7 @@ function setLanguage(value, persist = false) {
   control.lang = value === 'en' ? 'zh-CN' : 'en';
   control.setAttribute('aria-label', value === 'en' ? '将网站切换为中文' : 'Switch website to English');
   for (const mark of document.querySelectorAll('[data-brand-lockup]')) {
-    mark.src = `./assets/brand-a5/lockup-${value === 'en' ? 'en' : 'zh'}-app-color.svg`;
+    mark.src = `./assets/brand-cut/lockup-${value === 'en' ? 'en' : 'zh'}-color.svg`;
     mark.alt = value === 'en' ? 'SnapTiler' : '窗多多';
   }
   for (const shot of document.querySelectorAll('[data-shot-zh]')) {
@@ -131,6 +157,7 @@ function setLanguage(value, persist = false) {
     const url = new URL(location.href); url.searchParams.set('lang', value); history.replaceState(null, '', url);
   }
   renderRelease();
+  document.dispatchEvent(new CustomEvent('site-language', { detail: value }));
 }
 
 document.getElementById('language-switch').addEventListener('click', () => setLanguage(language === 'en' ? 'zh' : 'en', true));

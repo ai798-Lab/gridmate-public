@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "screenshots": [
+    {
+      "file": "layout-library-zh.png",
+      "app": "窗多多 / SnapTiler",
+      "language": "zh-Hans",
+      "version": "0.3.4",
+      "build": "24",
+      "capturedAt": "2026-09-20T17:19:16.848644+08:00",
+      "width": 720,
+      "height": 472,
+      "sha256": "e00502a66869f88d80ed1b4e75d38ce1a45719cb427d314615f34135a6902c4f",
+      "capture": "Single app window from installed build 24; original unedited screenshot"
+    },
+    {
+      "file": "settings-general-zh.png",
+      "app": "窗多多 / SnapTiler",
+      "language": "zh-Hans",
+      "version": "0.3.4",
+      "build": "24",
+      "capturedAt": "2026-09-20T17:19:02.148906+08:00",
+      "width": 780,
+      "height": 582,
+      "sha256": "c6a319b7e64a45edd74f480987ba898217b0cb429916c4d1f0c76b699eb35528",
+      "capture": "Single app window from installed build 24; original unedited screenshot"
+    },
+    {
+      "file": "settings-layouts-zh.png",
+      "app": "窗多多 / SnapTiler",
+      "language": "zh-Hans",
+      "version": "0.3.4",
+      "build": "24",
+      "capturedAt": "2026-09-20T17:19:02.795495+08:00",
+      "width": 780,
+      "height": 582,
+      "sha256": "1365c61d5f28991841fb47c036d20e3a6b3232c2eb5fa099767ed0d09acc3c78",
+      "capture": "Single app window from installed build 24; original unedited screenshot"
+    },
+    {
+      "file": "layout-library-en.png",
+      "app": "窗多多 / SnapTiler",
+      "language": "en",
+      "version": "0.3.4",
+      "build": "24",
+      "capturedAt": "2026-09-20T17:21:12.017773+08:00",
+      "width": 720,
+      "height": 472,
+      "sha256": "40a39f19d90ffa08529119f1578cecca330e6aa10b14621067b13ee87cc73c66",
+      "capture": "Single app window from installed build 24; original unedited screenshot"
+    },
+    {
+      "file": "settings-general-en.png",
+      "app": "窗多多 / SnapTiler",
+      "language": "en",
+      "version": "0.3.4",
+      "build": "24",
+      "capturedAt": "2026-09-20T17:20:07.295199+08:00",
+      "width": 780,
+      "height": 582,
+      "sha256": "c3967ee04b3570c674c3fa98affef59c47e8803d89d5da1a90bfb2b2ea574c87",
+      "capture": "Single app window from installed build 24; original unedited screenshot"
+    },
+    {
+      "file": "settings-layouts-en.png",
+      "app": "窗多多 / SnapTiler",
+      "language": "en",
+      "version": "0.3.4",
+      "build": "24",
+      "capturedAt": "2026-09-20T17:20:48.115124+08:00",
+      "width": 780,
+      "height": 582,
+      "sha256": "facf3c651556b3943edd0b87a62fdf703286798ebc398e5db4838cf63d17becf",
+      "capture": "Single app window from installed build 24; original unedited screenshot"
+    }
+  ]
+}
