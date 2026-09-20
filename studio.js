@@ -1,4 +1,5 @@
-import { initProductPreview } from './product-preview.js?v=bc15dbc25246';
+import { initProductPreview } from './product-preview.js?v=651359ae1ca4';
+import { initScrollDepth } from './scroll-depth.js?v=5164b7a1a08b';
 const en = () => document.documentElement.lang === 'en';
 const reduce = matchMedia('(prefers-reduced-motion: reduce)');
 const menu = document.querySelector('.menu-toggle');
@@ -10,6 +11,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu();
 matchMedia('(min-width: 761px)').addEventListener('change', e => { if (e.matches) closeMenu(); });
 
 initProductPreview();
+initScrollDepth();
 
 let count = 4;
 function setLayout(value) {

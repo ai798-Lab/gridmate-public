@@ -1,7 +1,7 @@
 import { isDownloadReady, isPublicLink, websiteDownloadURL } from './release-status.mjs?v=15efb2f94506';
 
 const english = {
-  'nav.product':'The app', 'product.label':'LAYOUT LIBRARY', 'product.version':'v0.3.5 · App screenshot', 'product.preparing':'Capturing the new app interface', 'product.caption':'Choose a layout. See the result before you arrange.', 'product.how':'See how it works', 'product.provenance':'Actual SnapTiler v0.3.5 · Captured September 20, 2026 · Click a screenshot to enlarge', 'workflow.title':'Fits your Mac. Fits your day.', 'workflow.intro':'A familiar Mac interface.<br>A little more room to focus.', 'workflow.settingsTitle':'Make yourself at home.', 'workflow.settingsBody':'Language, spacing, shortcuts, and excluded apps. Clear settings that make the everyday feel effortless.', 'workflow.layoutTitle':'Leave a little breathing room.', 'workflow.layoutBody':'Adjust gaps and screen margins. Arrange the whole screen or just one window, and find your own rhythm.',
+  'nav.product':'The app', 'product.label':'LAYOUT LIBRARY', 'product.version':'v0.3.6 Beta · Interface illustration', 'product.preparing':'Capturing the new app interface', 'product.caption':'Choose a layout. See the result before you arrange.', 'product.how':'See how it works', 'product.provenance':'Redrawn SnapTiler v0.3.6 Beta interface · Interactive preview', 'workflow.title':'Fits your Mac. Fits your day.', 'workflow.intro':'A familiar Mac interface.<br>A little more room to focus.', 'workflow.settingsTitle':'Make yourself at home.', 'workflow.settingsBody':'Language, spacing, shortcuts, and excluded apps. Clear settings that make the everyday feel effortless.', 'workflow.layoutTitle':'Leave a little breathing room.', 'workflow.layoutBody':'Adjust gaps and screen margins. Arrange the whole screen or just one window, and find your own rhythm.',
   'brand.name':'SnapTiler', 'footer.brand':'Brand assets', 'brand.copyright':'© 2026 SnapTiler · ai798-Lab',
   'skip':'Skip to content', 'nav':'Main navigation', 'nav.features':'Features', 'nav.layouts':'Layouts', 'nav.languages':'Languages', 'nav.faq':'FAQ', 'nav.download':'Downloads ↗',
   'hero.eyebrow':'A NATIVE MAC WINDOW MANAGER', 'hero.line1':'Space to work.', 'hero.line2':'Room to think.',
@@ -55,7 +55,7 @@ Object.assign(english, {
  'studio.feature2':'A familiar kind of effortless.', 'studio.feature2body':'Call up your layouts with a shortcut, or drag a window to the edge. A natural rhythm, with mouse or keyboard.',
  'studio.storyTitle':'Room to think.<br>Built right in.', 'studio.storyBody':'Your screen doesn’t need more things.<br>Just the right things, in the right places.<br>A little breathing room changes everything.', 'studio.storyLink':'Find your working arrangement',
  'studio.productTitle':'Feels like your Mac.<br>Works like you do.', 'studio.productIntro':'Choose a layout. Preview the arrangement.<br>Set the spacing and exclusions to make it yours.', 'studio.productTabs':'Explore the app interface',
- 'studio.tab1':'Layout library', 'studio.tab2':'General', 'studio.tab3':'Spacing', 'studio.provenance':'Redrawn from v0.3.5 · Try the layouts, switches, and sliders',
+ 'studio.tab1':'Layout library', 'studio.tab2':'General', 'studio.tab3':'Spacing', 'studio.provenance':'Redrawn from v0.3.6 Beta · Try the layouts, switches, and sliders',
  'studio.layoutTitle':'Different work.<br>Different ways to make room.', 'studio.layoutIntro':'Compare side by side, write across windows,<br>or spread out on a larger screen. Try a layout below.',
  'studio.six':'Six-up', 'studio.twelve':'Twelve zones', 'studio.layoutStatus':'Previewing 4 window zones',
  'studio.layoutNote':'Interactive illustration, not an app screenshot. A large screen is recommended for 9 or 12 zones. App minimum window sizes may limit arrangements.',
@@ -84,7 +84,7 @@ function initialLanguage() {
 function renderRelease() {
   for (const node of document.querySelectorAll('[data-release-version]')) {
     node.hidden = !isDownloadReady(release);
-    node.textContent = isDownloadReady(release) ? `v${release.version}${release.build ? (language === 'en' ? ` · Build ${release.build}` : ` · 构建 ${release.build}`) : ''}` : '';
+    node.textContent = isDownloadReady(release) ? `v${release.version}${release.channel === 'beta' ? ' Beta' : ''}${release.build ? (language === 'en' ? ` · Build ${release.build}` : ` · 构建 ${release.build}`) : ''}` : '';
   }
   for (const node of document.querySelectorAll('[data-support-link]')) {
     if (isPublicLink(release?.supportUrl, 'issues')) node.href = release.supportUrl;
@@ -100,8 +100,8 @@ function renderRelease() {
   link.setAttribute('download', `SnapTiler-${release.version}-arm64.dmg`);
   link.removeAttribute('aria-disabled');
   link.textContent = language === 'en' ? 'Download for Mac ↓' : '下载 Apple silicon 版 ↓';
-  document.getElementById('release-badge').textContent = language === 'en' ? 'NOTARIZED · EARLY RELEASE' : '已通过 Apple 公证 · 早期版本';
-  document.getElementById('release-status').textContent = language === 'en' ? `Version ${release.version} · Build ${release.build} · ${(release.sizeBytes / 1048576).toFixed(1)} MB · ${release.releasedAt}. Developer ID signed and notarized by Apple.` : `版本 ${release.version} · 构建 ${release.build} · ${(release.sizeBytes / 1048576).toFixed(1)} MB · ${release.releasedAt}。已完成 Developer ID 签名与 Apple 公证。`;
+  document.getElementById('release-badge').textContent = release.channel === 'beta' ? (language === 'en' ? 'BETA · APPLE NOTARIZED' : 'Beta 测试版 · 已通过 Apple 公证') : (language === 'en' ? 'APPLE NOTARIZED' : '已通过 Apple 公证');
+  document.getElementById('release-status').textContent = language === 'en' ? `Version ${release.version}${release.channel === 'beta' ? ' Beta' : ''} · Build ${release.build} · ${(release.sizeBytes / 1048576).toFixed(1)} MB · ${release.releasedAt}. Developer ID signed and notarized by Apple.` : `版本 ${release.version}${release.channel === 'beta' ? ' Beta' : ''} · 构建 ${release.build} · ${(release.sizeBytes / 1048576).toFixed(1)} MB · ${release.releasedAt}。已完成 Developer ID 签名与 Apple 公证。`;
   document.querySelector('.download-action [data-release-link]').hidden = false;
   const checksum = document.getElementById('checksum');
   if (checksum) { checksum.hidden = false; checksum.textContent = `SHA-256: ${release.sha256}`; }
