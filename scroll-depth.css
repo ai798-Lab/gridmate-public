@@ -44,4 +44,7 @@
   .parallax-enabled .story-copy,.parallax-enabled #product-preview,.parallax-enabled .feature-item{translate:none;scale:none}
 }
 
-.beta-mark{display:inline-block;border:1px solid #cbc4e5;background:#f3f0fb;color:#6a568c;font-size:10px;font-weight:600;letter-spacing:.7px;line-height:1;padding:6px 12px;border-radius:20px;margin-bottom:18px}
+.site-header .brand{display:inline-flex;align-items:center;gap:8px}
+.beta-mark{display:inline-block;flex:none;border:1px solid #cbc4e5;background:#f3f0fb;color:#6a568c;font-size:9px;font-weight:600;letter-spacing:.2px;line-height:1;padding:4px 6px;border-radius:5px;align-self:flex-start;margin-top:3px}
+@media(max-width:760px){.site-header .brand{gap:5px}.beta-mark{font-size:8px;padding:3px 4px;margin-top:1px}}
+@media(max-width:360px){.site-header .nav-inner{gap:8px}.site-header .brand img{width:78px}html[lang=en] .site-header .brand img{width:89px}.site-header .header-actions{gap:6px}}

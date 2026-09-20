@@ -1,4 +1,4 @@
-import { initProductPreview } from './product-preview.js?v=651359ae1ca4';
+import { initProductPreview } from './product-preview.js?v=301e1f0a8b2d';
 import { initScrollDepth } from './scroll-depth.js?v=5164b7a1a08b';
 const en = () => document.documentElement.lang === 'en';
 const reduce = matchMedia('(prefers-reduced-motion: reduce)');

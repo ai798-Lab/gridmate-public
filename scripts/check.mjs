@@ -8,7 +8,7 @@ import { isDownloadReady, isPublicLink } from '../release-status.mjs';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const script = await readFile(resolve(root, 'app.js'), 'utf8');
 const englishKeys = new Set([...script.matchAll(/'([^']+)'\s*:/g)].map(m => m[1]));
-for (const page of ['index.html', 'privacy.html', 'brand.html', 'support.html', 'releases/index.html', 'releases/0.3.5.html', 'releases/0.3.6.html']) {
+for (const page of ['index.html', 'privacy.html', 'brand.html', 'support.html', 'releases/index.html', 'releases/0.3.5.html', 'releases/0.3.6.html', 'releases/0.3.7.html']) {
   const html = await readFile(resolve(root, page), 'utf8');
   const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
   assert.equal(new Set(ids).size, ids.length, `${page}: duplicate IDs`);
