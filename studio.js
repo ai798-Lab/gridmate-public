@@ -69,7 +69,7 @@ reduce.addEventListener('change', e => { document.body.classList.toggle('motion-
 // Main content and downloads never wait for the optional 3D renderer.
 const sceneHost = document.getElementById('window-scene');
 try {
-  const { startScene } = await import('./window-scene.bundle.js');
+  const { startScene } = await import('./window-scene.bundle.js?v=92640e73c0a5');
   await startScene(sceneHost);
 } catch (error) {
   sceneHost.dataset.renderer = 'static-fallback';
