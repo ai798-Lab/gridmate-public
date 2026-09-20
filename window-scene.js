@@ -1,7 +1,9 @@
 import * as THREE from './assets/vendor/three/three.module.js';
 import { createMotion } from './window-motion.js';
 
-export async function startScene(host) {
+export async function startScene(host, { clock, scrollTo } = {}) {
+  const request = clock?.request ?? requestAnimationFrame;
+  const cancel = clock?.cancel ?? cancelAnimationFrame;
   const canvas = document.getElementById('hero-canvas');
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'low-power' });
   // Match Retina without the old fractional downsampling that softened every edge.
@@ -96,15 +98,16 @@ export async function startScene(host) {
     host.dataset.layout=motion.requested;status();requestFrame();
   }
   for(const b of document.querySelectorAll('[data-scene]'))b.addEventListener('click',()=>{clearTimeout(introTimer);pick(b.dataset.scene);});
-  document.getElementById('hero-try').addEventListener('click',()=>{clearTimeout(introTimer);pick(motion.requested==='grid'?'float':'grid');document.getElementById('hero-exhibit').scrollIntoView({behavior:reduce.matches?'instant':'smooth',block:'center'});});
+  document.getElementById('hero-try').addEventListener('click',()=>{clearTimeout(introTimer);pick(motion.requested==='grid'?'float':'grid');const target=document.getElementById('hero-exhibit');if(scrollTo)scrollTo(target);else target.scrollIntoView({behavior:reduce.matches?'instant':'smooth',block:'center'});});
   document.getElementById('motion-toggle').addEventListener('click',()=>{paused=!paused;clearTimeout(introTimer);pauseLabel();requestFrame();});
   document.addEventListener('site-language',()=>{status();pauseLabel();});
-  host.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const r=host.getBoundingClientRect();pointer.set((e.clientX-r.left)/r.width-.5,(e.clientY-r.top)/r.height-.5);requestFrame();});
-  host.addEventListener('pointerleave',()=>{pointer.set(0,0);requestFrame();});
+  let pendingPointer;
+  host.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'||paused||reduce.matches)return;pendingPointer=[e.clientX,e.clientY];requestFrame();});
+  host.addEventListener('pointerleave',()=>{pendingPointer=undefined;pointer.set(0,0);requestFrame();});
   function resize(){const w=host.clientWidth,h=host.clientHeight;if(!w||!h)return;const aspect=w/h;const vh=Math.max(7.1,12.2/aspect);camera.left=-vh*aspect/2;camera.right=vh*aspect/2;camera.top=vh/2;camera.bottom=-vh/2;camera.updateProjectionMatrix();renderer.setSize(w,h,false);requestFrame();}
   const observer=new ResizeObserver(resize);observer.observe(host);
-  const intersection=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;if(visible){last=0;requestFrame();}else{cancelAnimationFrame(raf);raf=0;}},{threshold:.02});intersection.observe(host);
-  document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0;}else{last=0;requestFrame();}});
+  const intersection=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;if(visible){last=0;requestFrame();}else{cancel(raf);raf=0;}},{threshold:.02});intersection.observe(host);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){cancel(raf);raf=0;}else{last=0;requestFrame();}});
   reduce.addEventListener('change',()=>{clearTimeout(introTimer);motion.request(motion.requested,true);pointer.set(0,0);requestFrame();});
   // Opt-in browser QA records bounds of the actual meshes passed to WebGL.
   // It stays out of the normal rendering loop unless the audit URL is used.
@@ -121,9 +124,10 @@ export async function startScene(host) {
     for(const panel of panels){const b=new THREE.Box3().setFromObject(panel);if(b.min.x<camera.left||b.max.x>camera.right||b.min.y<camera.bottom||b.max.y>camera.top)audit.clipped++;}
     audit.frames++;host.dataset.audit=JSON.stringify({...audit,minGap:Number(audit.minGap.toFixed(4))});
   }
-  function requestFrame(){if(!raf&&!disposed&&!contextLost&&visible&&!document.hidden)raf=requestAnimationFrame(frame);}
+  function requestFrame(){if(!raf&&!disposed&&!contextLost&&visible&&!document.hidden)raf=request(frame);}
   function frame(now){
     raf=0;const dt=Math.min((now-(last||now))/1000,.04);last=now;
+    if(pendingPointer){const r=host.getBoundingClientRect();pointer.set((pendingPointer[0]-r.left)/r.width-.5,(pendingPointer[1]-r.top)/r.height-.5);pendingPointer=undefined;}
     const moving=!paused&&!reduce.matches;
     if(moving)elapsed+=dt;
     const poses=motion.step(dt,elapsed,moving);
@@ -135,15 +139,17 @@ export async function startScene(host) {
     assembly.rotation.y=tilt.x*.075;assembly.rotation.x=tilt.y*.045;
     if(auditEnabled)auditFrame();
     renderer.render(scene,camera);
-    canvas.dataset.frames=String(Number(canvas.dataset.frames||0)+1);
-    host.dataset.settled=String(motion.settled);host.dataset.phase=motion.phase;host.dataset.currentLayout=motion.current;
+    if(auditEnabled)canvas.dataset.frames=String(Number(canvas.dataset.frames||0)+1);
+    if(host.dataset.settled!==String(motion.settled))host.dataset.settled=String(motion.settled);
+    if(host.dataset.phase!==motion.phase)host.dataset.phase=motion.phase;
+    if(host.dataset.currentLayout!==motion.current)host.dataset.currentLayout=motion.current;
     if(moving&&(!motion.settled||motion.current==='float'||tilt.distanceTo(pointer)>.00005))requestFrame();
   }
   panels.forEach((p,i)=>{const v=motion.poses[i];p.position.set(v[0],v[1],v[2]);p.rotation.set(v[3],v[4],v[5]);p.scale.setScalar(v[6]);});
   let introTimer=setTimeout(()=>{if(!paused&&!reduce.matches&&visible)pick('grid');},2400);
   for(const b of document.querySelectorAll('[data-scene]'))b.setAttribute('aria-pressed',String(b.dataset.scene===motion.requested));
   resize();status();pauseLabel();host.classList.add('is-ready');host.dataset.renderer='three-webgl';host.dataset.layout=motion.requested;
-  canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();contextLost=true;cancelAnimationFrame(raf);raf=0;host.classList.remove('is-ready');host.dataset.renderer='static-fallback';document.getElementById('scene-status').textContent=document.documentElement.lang==='en'?'Static illustration':'静态插画模式';document.querySelector('.scene-controls').hidden=true;document.getElementById('motion-toggle').hidden=true;document.getElementById('hero-try').hidden=true;});
+  canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();contextLost=true;cancel(raf);raf=0;host.classList.remove('is-ready');host.dataset.renderer='static-fallback';document.getElementById('scene-status').textContent=document.documentElement.lang==='en'?'Static illustration':'静态插画模式';document.querySelector('.scene-controls').hidden=true;document.getElementById('motion-toggle').hidden=true;document.getElementById('hero-try').hidden=true;});
   window.addEventListener('pageshow',()=>{last=0;requestFrame();});
-  window.addEventListener('pagehide',e=>{if(e.persisted){cancelAnimationFrame(raf);raf=0;return;}disposed=true;clearTimeout(introTimer);cancelAnimationFrame(raf);observer.disconnect();intersection.disconnect();geometry.dispose();face.dispose();shadowTexture.dispose();shadowGeometry.dispose();shadowMaterial.dispose();contents.forEach(t=>t.dispose());renderer.dispose();});
+  window.addEventListener('pagehide',e=>{if(e.persisted){cancel(raf);raf=0;return;}disposed=true;clearTimeout(introTimer);cancel(raf);observer.disconnect();intersection.disconnect();geometry.dispose();face.dispose();shadowTexture.dispose();shadowGeometry.dispose();shadowMaterial.dispose();contents.forEach(t=>t.dispose());renderer.dispose();});
 }

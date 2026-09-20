@@ -43,7 +43,7 @@ if (release.supportUrl) assert(isPublicLink(release.supportUrl, 'issues'), 'Inva
 if (release.releaseUrl) assert(isPublicLink(release.releaseUrl, 'releases'), 'Invalid release destination');
 async function scan(dir) {
   for (const entry of await readdir(dir, { withFileTypes:true })) {
-    if (entry.name.startsWith('.git')) continue;
+    if (entry.name.startsWith('.git') || entry.name === 'node_modules') continue;
     const path = resolve(dir, entry.name);
     if (entry.isDirectory()) { await scan(path); continue; }
     if (/\.(p12|p8|key|pem|mobileprovision)$/.test(entry.name) || entry.name.startsWith('.env')) throw new Error(`Private file in public site: ${entry.name}`);

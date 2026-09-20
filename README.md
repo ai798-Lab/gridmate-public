@@ -62,3 +62,15 @@ PORT=8201 npm run dev
 ## 0.3.5 naming update
 
 The active installer is `SnapTiler-0.3.5-arm64.dmg`, containing `SnapTiler.app`. Its executable, resource bundle, and application identifier use the new brand. The package audit scans every filename and file byte (including UTF-16) for the retired name before release. Because the app identity changed, users grant Accessibility access again. The new app and website use the branded `latest.json` feed. The older `release.json` and versioned asset remain immutable compatibility archives for already-installed versions. Do not silently replace an immutable old asset.
+
+
+## 官网动效维护
+
+动效依赖固定为 Lenis 1.3.26、GSAP 3.15.0（ScrollTrigger 和 Flip），随官网一起打包，不依赖访客访问第三方 CDN。
+
+- `npm ci` 安装锁定依赖，`npm run build` 重建滚动、3D 资源并刷新资源缓存版本。
+- `npm test` 与 `npm run check` 检查窗口几何、发行信息、下载文件校验值和公开文件。
+- 桌面精确指针且视口足够大时使用 Lenis；窄屏、触摸及减少动态效果模式保留原生滚动。
+- ScrollTrigger 只在初始化、窗口变化和内容高度变化时测量位置；滚动期间使用直接 transform，不重新测量全部区块。
+- GSAP Flip 在点击时测量布局，以 transform 完成过渡，避免逐帧改变宽高。3D 与滚动共用时钟，离屏或画面稳定后停止申请渲染。
+- 上线前在实际浏览器检查连续滚动、导航定位、快速切换布局、原型交互、320px 窄屏、中英文和减少动态效果；测试通过不等于浏览器体验已验收。
