@@ -1,34 +1,25 @@
-export const PUBLIC_REPOSITORY = 'https://github.com/ai798-Lab/gridmate-public';
+export const PUBLIC_WEBSITE = 'https://snaptiler.com';
 
 export function isPublicLink(value, kind) {
   if (typeof value !== 'string') return false;
-  const base = `${PUBLIC_REPOSITORY}/${kind}`;
-  try {
-    const url = new URL(value);
-    return url.origin === 'https://github.com' && !url.username && !url.password &&
-      !url.search && !url.hash && (value === base || value.startsWith(`${base}/`));
-  } catch { return false; }
+  if (kind === 'issues') return value === `${PUBLIC_WEBSITE}/support.html`;
+  if (kind === 'releases') return value === `${PUBLIC_WEBSITE}/releases/` || /^https:\/\/snaptiler\.com\/releases\/\d+\.\d+\.\d+\.html$/.test(value);
+  return false;
 }
 
-// Fail closed: never expose a local/self-signed/unverified binary as a public release.
 export function isDownloadReady(release) {
   if (!release || release.schemaVersion !== 1 || release.status !== 'published') return false;
-  if (typeof release.version !== 'string' || !/^\d+\.\d+\.\d+(?:-[a-z0-9.-]+)?$/.test(release.version)) return false;
-  const tag = `v${release.version}`;
+  if (typeof release.version !== 'string' || !/^\d+\.\d+\.\d+$/.test(release.version)) return false;
   return release.appleNotarized === true && release.gatekeeperAccepted === true &&
     release.downloadedArtifactTested === true && release.architecture === 'arm64' &&
     release.minimumMacOS === '13.0' && typeof release.sha256 === 'string' && /^[a-f0-9]{64}$/.test(release.sha256) &&
     Number.isSafeInteger(release.sizeBytes) && release.sizeBytes > 0 &&
     typeof release.releasedAt === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(release.releasedAt) &&
     !Number.isNaN(Date.parse(release.releasedAt)) && new Date(release.releasedAt).toISOString().slice(0,10) === release.releasedAt &&
-    release.releaseUrl === `${PUBLIC_REPOSITORY}/releases/tag/${tag}` &&
-    release.downloadUrl === `${PUBLIC_REPOSITORY}/releases/download/${tag}/GridMate-${release.version}-arm64.dmg`;
+    release.releaseUrl === `${PUBLIC_WEBSITE}/releases/${release.version}.html` &&
+    release.downloadUrl === `${PUBLIC_WEBSITE}/downloads/SnapTiler-${release.version}-arm64.dmg`;
 }
 
-// The website may serve a byte-identical installer on its own domain. Keep the
-// existing GitHub release URL in the manifest for already-installed app clients.
 export function websiteDownloadURL(release) {
-  if (!isDownloadReady(release)) return null;
-  const expected = `https://snaptiler.com/downloads/GridMate-${release.version}-arm64.dmg`;
-  return release.websiteDownloadUrl === expected ? expected : release.downloadUrl;
+  return isDownloadReady(release) ? release.downloadUrl : null;
 }

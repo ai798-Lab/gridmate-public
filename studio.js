@@ -1,4 +1,4 @@
-import { initProductPreview } from './product-preview.js?v=6363e82fbc67';
+import { initProductPreview } from './product-preview.js?v=bc15dbc25246';
 const en = () => document.documentElement.lang === 'en';
 const reduce = matchMedia('(prefers-reduced-motion: reduce)');
 const menu = document.querySelector('.menu-toggle');

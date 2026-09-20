@@ -18,9 +18,9 @@ Preview at `http://127.0.0.1:8185`. Test both Chinese and English, desktop and m
 
 ## Publish a release
 
-The current release is **0.3.4, build 24**, published on 2026-09-20. The notarized Apple silicon DMG is served at `https://snaptiler.com/downloads/GridMate-0.3.4-arm64.dmg` with an identical immutable GitHub Release asset. Its SHA-256 and byte size are recorded in `release.json`. Future unverified candidates must use the `pending` state, which disables download links. Do not add a download URL until the artifact has passed Developer ID signing, Apple notarization, Gatekeeper assessment, and download-to-install verification. Upload immutable versioned assets to this repository's GitHub Releases; do not reuse a URL for a different binary.
+The current release is **0.3.5, build 25**, published on 2026-09-20. The notarized Apple silicon DMG is served at `https://snaptiler.com/downloads/SnapTiler-0.3.5-arm64.dmg` with an identical immutable GitHub Release asset. Its SHA-256 and byte size are recorded in `latest.json`. Future unverified candidates must use the `pending` state, which disables download links. Do not add a download URL until the artifact has passed Developer ID signing, Apple notarization, Gatekeeper assessment, and download-to-install verification. Upload immutable versioned assets to this repository's GitHub Releases; do not reuse a URL for a different binary.
 
-Set the exact version, file size, SHA-256, date, public URLs, and all verification flags in `release.json` only after those checks. Run the tests and checker again before publishing. The website never guesses download links or exposes a development build as a verified release.
+Set the exact version, file size, SHA-256, date, public URLs, and all verification flags in `latest.json` only after those checks. Run the tests and checker again before publishing. The website never guesses download links or exposes a development build as a verified release.
 
 Keep app signing keys, notarization credentials, internal notes, private source, and personal paths out of this repository. Public issues should contain only the minimum information needed to reproduce a problem.
 
@@ -40,7 +40,7 @@ PORT=8201 npm run dev
 
 导航与按钮采用完整、简短的单行措辞，不使用省略号。英文小屏入口为「Downloads」「Download status」「See the app」。说明段落正常换行，避免为强制单行而缩小正文。验收宽度覆盖 320、390 和 1200 CSS 像素，另检查 1440 像素宽的布局边界。
 
-公开下载继续由 `release.json` 的验证字段控制。准备中时，顶部入口显示「下载状态」，不显示旧候选版本号；验证齐全后才显示获取和下载按钮。官网通过 GitHub Pages 发布，正式地址为 https://snaptiler.com/；www 子域名统一跳转到主域名。
+公开下载继续由 `latest.json` 的验证字段控制。准备中时，顶部入口显示「下载状态」，不显示旧候选版本号；验证齐全后才显示获取和下载按钮。官网通过 GitHub Pages 发布，正式地址为 https://snaptiler.com/；www 子域名统一跳转到主域名。
 
 ## 官网域名
 
@@ -58,3 +58,7 @@ PORT=8201 npm run dev
 本机预览：`PORT=8203 npm run dev`。Hero 支持三种窗口排列、鼠标轻视差及暂停；滚出视区和后台标签页会停止渲染；系统减少动态效果启用时使用静止布局；WebGL 不可用时显示静态插画。产品区三个标签切换重绘的交互原型，并跟随网站中英文选择；下方布局区支持 2 / 4 / 6 / 12 分区演示。主站与隐私、品牌页的中性视觉使用一致字体与基础颜色，品牌母版保持不变。
 
 本版于 2026-09-20 获得正式域名与安装包上线授权，使用蓝灰色视觉、清晰的界面重绘，以及避免窗口交叠的 Hero 动画。部署目标为 `snaptiler.com`，公开仓库仅同步 `website/` 中经过检查的官网文件。0.3.4（24）已通过 Developer ID 签名、App 与 DMG 的 Apple 公证、Gatekeeper 检查、公开下载校验、正式安装和独立测试窗口移动/撤销验证。当前发行面向 Apple silicon；其他硬件和每个最低系统版本未逐台覆盖。官网首页和下载区均显示版本与构建号，下载区提供日期、大小、安装步骤及校验值。
+
+## 0.3.5 naming update
+
+The active installer is `SnapTiler-0.3.5-arm64.dmg`, containing `SnapTiler.app`. Its executable, resource bundle, and application identifier use the new brand. The package audit scans every filename and file byte (including UTF-16) for the retired name before release. Because the app identity changed, users grant Accessibility access again. The new app and website use the branded `latest.json` feed. The older `release.json` and versioned asset remain immutable compatibility archives for already-installed versions. Do not silently replace an immutable old asset.

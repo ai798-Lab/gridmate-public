@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "version": "0.3.5",
+  "build": "25",
+  "status": "published",
+  "minimumMacOS": "13.0",
+  "architecture": "arm64",
+  "releaseUrl": "https://snaptiler.com/releases/0.3.5.html",
+  "supportUrl": "https://snaptiler.com/support.html",
+  "downloadUrl": "https://snaptiler.com/downloads/SnapTiler-0.3.5-arm64.dmg",
+  "websiteDownloadUrl": "https://snaptiler.com/downloads/SnapTiler-0.3.5-arm64.dmg",
+  "sha256": "042092f28354f69dfb4328cda690b825f89c7071d2d40060ff8d6965a45e444b",
+  "sizeBytes": 1651608,
+  "releasedAt": "2026-09-20",
+  "appleNotarized": true,
+  "gatekeeperAccepted": true,
+  "downloadedArtifactTested": true
+}

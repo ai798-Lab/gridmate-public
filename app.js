@@ -1,7 +1,7 @@
-import { isDownloadReady, isPublicLink, websiteDownloadURL } from './release-status.mjs?v=e8a1e0013aa4';
+import { isDownloadReady, isPublicLink, websiteDownloadURL } from './release-status.mjs?v=15efb2f94506';
 
 const english = {
-  'nav.product':'The app', 'product.label':'LAYOUT LIBRARY', 'product.version':'v0.3.4 · App screenshot', 'product.preparing':'Capturing the new app interface', 'product.caption':'Choose a layout. See the result before you arrange.', 'product.how':'See how it works', 'product.provenance':'Actual SnapTiler v0.3.4 · Captured September 20, 2026 · Click a screenshot to enlarge', 'workflow.title':'Fits your Mac. Fits your day.', 'workflow.intro':'A familiar Mac interface.<br>A little more room to focus.', 'workflow.settingsTitle':'Make yourself at home.', 'workflow.settingsBody':'Language, spacing, shortcuts, and excluded apps. Clear settings that make the everyday feel effortless.', 'workflow.layoutTitle':'Leave a little breathing room.', 'workflow.layoutBody':'Adjust gaps and screen margins. Arrange the whole screen or just one window, and find your own rhythm.',
+  'nav.product':'The app', 'product.label':'LAYOUT LIBRARY', 'product.version':'v0.3.5 · App screenshot', 'product.preparing':'Capturing the new app interface', 'product.caption':'Choose a layout. See the result before you arrange.', 'product.how':'See how it works', 'product.provenance':'Actual SnapTiler v0.3.5 · Captured September 20, 2026 · Click a screenshot to enlarge', 'workflow.title':'Fits your Mac. Fits your day.', 'workflow.intro':'A familiar Mac interface.<br>A little more room to focus.', 'workflow.settingsTitle':'Make yourself at home.', 'workflow.settingsBody':'Language, spacing, shortcuts, and excluded apps. Clear settings that make the everyday feel effortless.', 'workflow.layoutTitle':'Leave a little breathing room.', 'workflow.layoutBody':'Adjust gaps and screen margins. Arrange the whole screen or just one window, and find your own rhythm.',
   'brand.name':'SnapTiler', 'footer.brand':'Brand assets', 'brand.copyright':'© 2026 SnapTiler · ai798-Lab',
   'skip':'Skip to content', 'nav':'Main navigation', 'nav.features':'Features', 'nav.layouts':'Layouts', 'nav.languages':'Languages', 'nav.faq':'FAQ', 'nav.download':'Downloads ↗',
   'hero.eyebrow':'A NATIVE MAC WINDOW MANAGER', 'hero.line1':'Space to work.', 'hero.line2':'Room to think.',
@@ -17,7 +17,7 @@ const english = {
   'layout.halves':'Side by side', 'layout.quad':'Four corners', 'layout.focus':'One main, two beside', 'layout.six':'Six-window workspace', 'layout.nine':'Nine-grid', 'layout.twelve':'Twelve zones',
   'languages.eyebrow':'SPEAK YOUR LANGUAGE', 'languages.title':'Feel right at home.', 'languages.body':'Follow your system language, or switch instantly in settings.<br>Right-to-left reading is supported without mirroring physical window positions.', 'languages.list':'Languages supported in the app', 'languages.note':'The 32 options include regional variants. Localization is continually improving; feedback on wording is welcome. This website is available in Chinese and English.',
   'setup.eyebrow':'A CALMER DESKTOP, IN THREE STEPS', 'setup.title':'Meet your new workspace.',
-  'setup1.title':'Download and install', 'setup1.body':'Once the verified installer is available, open the DMG, drag SnapTiler (GridMate.app) into Applications, and launch it from there.',
+  'setup1.title':'Download and install', 'setup1.body':'Once the verified installer is available, open the DMG, drag SnapTiler.app into Applications, and launch it from there.',
   'setup2.title':'Allow Accessibility access', 'setup2.body':'Go to System Settings → Privacy & Security → Accessibility and allow SnapTiler to adjust other apps’ windows.',
   'setup3.title':'Choose your layout', 'setup3.body':'Click the SnapTiler icon in the menu bar and choose a layout. Or press Control + Option + Command + G to open the layout library, choose a zone, then click Apply Layout.',
   'faq.title':'A few things to know.',
@@ -32,7 +32,7 @@ const english = {
   'privacy.back':'← Back to SnapTiler', 'privacy.eyebrow':'TRANSPARENT BY DESIGN', 'privacy.title':'Privacy, in plain language.', 'privacy.date':'Last updated: September 20, 2026 · Applies to SnapTiler 0.3.4',
   'privacy.intro':'SnapTiler arranges windows on your Mac. The app’s local behavior and the website’s hosting services are different; here is what each does.',
   'privacy.app.title':'1. What the app accesses', 'privacy.app.body':'With Accessibility permission, SnapTiler reads app and window metadata such as the owning process, window position, size, state, and controls, then changes positions and sizes to arrange windows. Diagnostic commands can also read window titles. It does not capture screenshots or read document text to perform window arrangements.',
-  'privacy.local.title':'2. What stays on your Mac', 'privacy.local.body':'Layout preferences, gaps, margins, excluded apps, and related settings are stored in the local Application Support/GridMate folder. The language choice is stored in app preferences. Undo information is held in memory for the running session. The current app has no account system, advertising SDK, or code that uploads this information.',
+  'privacy.local.title':'2. What stays on your Mac', 'privacy.local.body':'Layout preferences, gaps, margins, excluded apps, and related settings are stored in the local Application Support/SnapTiler folder. The language choice is stored in app preferences. Undo information is held in memory for the running session. The current app has no account system, advertising SDK, or code that uploads this information.',
   'privacy.logs.title':'3. Diagnostics and feedback', 'privacy.logs.body':'Release builds disable the file-based mouse interaction debug log. macOS may retain operational logs, such as launch, arrangement counts, and errors. Development builds and manually run diagnostics can produce more detailed output. Feedback is voluntary; please remove window titles, personal file names, and private information before sharing screenshots or logs. Public GitHub issues are visible to everyone.',
   'privacy.website.title':'4. This website and downloads', 'privacy.website.body':'This website does not use analytics scripts, advertising trackers, or external font services. Fonts, icons, and illustrations are served with this website. It uses a local browser preference to remember your website language; blocking storage does not prevent access. When hosted on GitHub Pages, GitHub records visitors’ IP addresses for security. GitHub also serves downloads and feedback pages under its own privacy statement.', 'privacy.github':'Read GitHub’s privacy statement ↗',
   'privacy.control.title':'5. Your choices', 'privacy.control.body':'You can revoke SnapTiler’s Accessibility permission in System Settings and turn off launch at login. Automatic update checks can also be turned off in About. Removing the app does not necessarily remove local settings. To remove preferences, quit the app first, then remove only SnapTiler’s configuration and preferences. Clearing this website’s browser storage resets the website language preference.',
@@ -55,7 +55,7 @@ Object.assign(english, {
  'studio.feature2':'A familiar kind of effortless.', 'studio.feature2body':'Call up your layouts with a shortcut, or drag a window to the edge. A natural rhythm, with mouse or keyboard.',
  'studio.storyTitle':'Room to think.<br>Built right in.', 'studio.storyBody':'Your screen doesn’t need more things.<br>Just the right things, in the right places.<br>A little breathing room changes everything.', 'studio.storyLink':'Find your working arrangement',
  'studio.productTitle':'Feels like your Mac.<br>Works like you do.', 'studio.productIntro':'Choose a layout. Preview the arrangement.<br>Set the spacing and exclusions to make it yours.', 'studio.productTabs':'Explore the app interface',
- 'studio.tab1':'Layout library', 'studio.tab2':'General', 'studio.tab3':'Spacing', 'studio.provenance':'Redrawn from v0.3.4 · Try the layouts, switches, and sliders',
+ 'studio.tab1':'Layout library', 'studio.tab2':'General', 'studio.tab3':'Spacing', 'studio.provenance':'Redrawn from v0.3.5 · Try the layouts, switches, and sliders',
  'studio.layoutTitle':'Different work.<br>Different ways to make room.', 'studio.layoutIntro':'Compare side by side, write across windows,<br>or spread out on a larger screen. Try a layout below.',
  'studio.six':'Six-up', 'studio.twelve':'Twelve zones', 'studio.layoutStatus':'Previewing 4 window zones',
  'studio.layoutNote':'Interactive illustration, not an app screenshot. A large screen is recommended for 9 or 12 zones. App minimum window sizes may limit arrangements.',
@@ -77,7 +77,7 @@ let language = 'zh';
 function initialLanguage() {
   const query = new URL(location.href).searchParams.get('lang');
   if (query === 'en' || query === 'zh') return query;
-  try { const saved = localStorage.getItem('gridmate.site.language'); if (saved === 'en' || saved === 'zh') return saved; } catch { /* Storage can be blocked. */ }
+  try { const saved = localStorage.getItem('snaptiler.site.language'); if (saved === 'en' || saved === 'zh') return saved; } catch { /* Storage can be blocked. */ }
   return navigator.language?.toLowerCase().startsWith('zh') ? 'zh' : 'en';
 }
 
@@ -97,7 +97,7 @@ function renderRelease() {
   const link = document.getElementById('download-link');
   if (!link) return;
   link.href = websiteDownloadURL(release);
-  link.setAttribute('download', `GridMate-${release.version}-arm64.dmg`);
+  link.setAttribute('download', `SnapTiler-${release.version}-arm64.dmg`);
   link.removeAttribute('aria-disabled');
   link.textContent = language === 'en' ? 'Download for Mac ↓' : '下载 Apple silicon 版 ↓';
   document.getElementById('release-badge').textContent = language === 'en' ? 'NOTARIZED · EARLY RELEASE' : '已通过 Apple 公证 · 早期版本';
@@ -154,7 +154,7 @@ function setLanguage(value, persist = false) {
     demoStatus.textContent = value === 'en' ? `Preview: ${count} window zones.` : `正在演示 ${count} 个窗口分区。`;
   }
   if (persist) {
-    try { localStorage.setItem('gridmate.site.language', value); } catch { /* Optional preference. */ }
+    try { localStorage.setItem('snaptiler.site.language', value); } catch { /* Optional preference. */ }
     const url = new URL(location.href); url.searchParams.set('lang', value); history.replaceState(null, '', url);
   }
   renderRelease();
@@ -194,6 +194,6 @@ if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: re
   }
 }
 try {
-  const response = await fetch('./release.json', { cache: 'no-store' });
+  const response = await fetch('./latest.json', { cache: 'no-store' });
   if (response.ok) { release = await response.json(); renderRelease(); }
 } catch { /* Leave download unavailable. No guessed URL or automatic fallback. */ }
