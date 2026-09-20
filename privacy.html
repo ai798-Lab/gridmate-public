@@ -3,21 +3,27 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f7f8f2" />
+    <meta name="theme-color" content="#F8F8FC" />
+    <link rel="canonical" href="https://snaptiler.com/privacy.html?lang=zh" />
+    <link rel="alternate" hreflang="zh-CN" href="https://snaptiler.com/privacy.html?lang=zh" />
+    <link rel="alternate" hreflang="en" href="https://snaptiler.com/privacy.html?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://snaptiler.com/privacy.html" />
     <meta
       name="description"
-      content="了解 GridMate 的窗口数据、本地偏好、诊断和官网托管服务。"
+      content="了解 窗多多 的窗口数据、本地偏好、诊断和官网托管服务。"
     />
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="./styles.css" />
-    <title>隐私说明 · GridMate</title>
+    <link rel="stylesheet" href="./brand.css" />
+    <link rel="apple-touch-icon" href="./assets/brand/icon-180.png" />
+    <title>隐私说明 · 窗多多</title>
     <script type="module" src="./app.js"></script>
   </head>
   <body data-page="privacy">
     <a class="skip-link" href="#main" data-i18n="skip">跳到主要内容</a>
     <header class="site-header wrap">
-      <a class="brand" href="./" aria-label="GridMate"
-        ><img src="./favicon.svg" alt="" width="34" height="34" />GridMate</a
+      <a class="brand" href="./" data-keep-language aria-label="窗多多 / SnapTiler"
+        ><img class="brand-lockup" data-brand-lockup src="./assets/brand-a5/lockup-zh-app-color.svg" alt="窗多多" width="135" height="45" /></a
       >
       <div class="header-actions">
         <button
@@ -33,23 +39,23 @@
           href="./index.html"
           data-keep-language
           data-i18n="privacy.back"
-          >← 返回 GridMate</a
+          >← 返回 窗多多</a
         >
       </div>
     </header>
-    <main class="policy wrap" id="main">
+    <main class="policy wrap" id="main" tabindex="-1">
       <p class="eyebrow" data-i18n="privacy.eyebrow">TRANSPARENT BY DESIGN</p>
       <h1 data-i18n="privacy.title">关于隐私，说清楚。</h1>
       <p class="policy-date" data-i18n="privacy.date">
-        更新日期：2026 年 9 月 17 日 · 适用于 GridMate 0.3.0
+        更新日期：2026 年 9 月 20 日 · 适用于窗多多 0.3.4
       </p>
       <p class="policy-intro" data-i18n="privacy.intro">
-        GridMate 在你的 Mac 上整理窗口。App
+        窗多多 在你的 Mac 上整理窗口。App
         的本地行为和官网使用的托管服务是两回事，我们分别说明。
       </p>
       <h2 data-i18n="privacy.app.title">1. App 访问哪些信息</h2>
       <p data-i18n="privacy.app.body">
-        获得辅助功能权限后，GridMate
+        获得辅助功能权限后，窗多多
         读取应用和窗口的元数据，例如所属进程、窗口位置、尺寸、状态及窗口控件，并通过调整位置和尺寸完成排布。诊断命令还可能读取窗口标题。窗口排布不依赖截图，也不读取文档正文。
       </p>
       <h2 data-i18n="privacy.local.title">2. 哪些内容保存在本机</h2>
@@ -80,29 +86,31 @@
       </p>
       <h2 data-i18n="privacy.control.title">5. 你可以如何控制</h2>
       <p data-i18n="privacy.control.body">
-        你可以随时在系统设置中撤销 GridMate
+        你可以随时在系统设置中撤销 窗多多
         的辅助功能权限，或关闭登录时启动。删除 App
-        不一定删除本地设置。如需移除偏好，应先退出 App，再只清除 GridMate
+        不一定删除本地设置。也可在「关于」中关闭自动检查更新。如需移除偏好，应先退出 App，再只清除 窗多多
         对应的配置与偏好文件。清除本网站的浏览器存储，可重置官网语言选择。
       </p>
-      <h2 data-i18n="privacy.contact.title">6. 联系与变更</h2>
+      <h2 data-i18n="privacy.updates.title">6. 更新检查</h2>
+      <p data-i18n="privacy.updates.body">当前版本提供默认开启、可关闭的每日更新检查：软件运行时读取 GitHub Pages 上的公开版本清单，不发送窗口数据、日志、设备标识或账号信息。检查使用临时网络会话，不保存 Cookie；GitHub 仍可接收 IP 地址等正常连接信息。提醒、跳过版本与检查时间保存在本机。下载安装由用户自行发起，未安装新版的旧用户不会获得此功能。</p>
+      <h2 data-i18n="privacy.contact.title">7. 联系与变更</h2>
       <p data-i18n="privacy.contact.body">
-        一般问题可通过 GridMate
-        的公开支持入口反馈，请勿在公开区域提交个人资料。这份说明描述当前版本；如果未来引入账号、支付、数据分析或更新服务，需要在相关功能上线前更新说明及相应选择。
+        一般问题可通过 窗多多
+        的公开支持入口反馈，请勿在公开区域提交个人资料。也可在微信搜索公众号 ai798Lab 留言；发送的内容适用微信的隐私规则。这份说明描述当前版本；如果未来引入账号、支付或数据分析，需要在相关功能上线前更新说明及相应选择。
       </p>
       <p>
         <a
           data-support-link
           href="https://github.com/ai798-Lab/gridmate-public/issues"
           data-i18n="privacy.support"
-          >GridMate 支持入口 ↗</a
+          >窗多多 支持入口 ↗</a
         >
       </p>
     </main>
     <footer class="site-footer wrap">
-      <small>© 2026 GridMate · ai798-Lab</small
+      <small data-i18n="brand.copyright">© 2026 窗多多 · ai798-Lab</small
       ><a href="./index.html" data-keep-language data-i18n="privacy.back"
-        >← 返回 GridMate</a
+        >← 返回 窗多多</a
       >
     </footer>
   </body>

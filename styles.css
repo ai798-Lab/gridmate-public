@@ -1,13 +1,13 @@
 @charset "UTF-8";
 :root {
-  --paper: #f7f8f2;
-  --ink: #233832;
-  --green: #326c58;
-  --muted: #67746b;
-  --line: #dce2d7;
-  --mint: #e5eedc;
+  --paper: #f8f8fc;
+  --ink: #18213b;
+  --green: #4457c4;
+  --muted: #656c80;
+  --line: #e0e2ee;
+  --mint: #eeecff;
   --white: #fff;
-  --serif: Georgia, "Times New Roman", serif;
+  --serif: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
     "Microsoft YaHei", sans-serif;
@@ -44,7 +44,7 @@ a {
 button:focus-visible,
 a:focus-visible,
 summary:focus-visible {
-  outline: 3px solid #b26a32;
+  outline: 3px solid #0068f5;
   outline-offset: 5px;
 }
 button:hover,
@@ -130,7 +130,7 @@ a:hover {
   color: #fff;
 }
 .button-dark:hover {
-  background: #386452;
+  background: #334fc3;
   transform: translateY(-2px);
 }
 .button-small {
@@ -139,13 +139,13 @@ a:hover {
   font-size: 13px;
 }
 .button-light {
-  background: #eef4d7;
+  background: #f1f0ff;
   color: var(--ink);
 }
 .button[aria-disabled="true"] {
   cursor: default;
-  background: #e1e5d6;
-  color: #465b51;
+  background: #e5e6f0;
+  color: #515b77;
 }
 .skip-link {
   position: absolute;
@@ -185,8 +185,8 @@ a:hover {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #5a8161;
-  box-shadow: 0 0 0 4px #e7ecdf;
+  background: #6076ed;
+  box-shadow: 0 0 0 4px #eae9ff;
 }
 .hero h1 {
   font-size: clamp(45px, 4.65vw, 68px);
@@ -256,12 +256,12 @@ a:hover {
 }
 .desktop-demo {
   padding: 0 12px 10px;
-  background: #cdd9be;
+  background: #b5aff1;
   border: 6px solid #fefefb;
   border-radius: 14px;
   box-shadow:
-    0 2px 3px #1d362b10,
-    0 25px 50px -22px #28463545;
+    0 2px 3px #342b6610,
+    0 25px 50px -22px #524e8545;
   position: relative;
   overflow: hidden;
 }
@@ -271,7 +271,7 @@ a:hover {
   align-items: center;
   height: 25px;
   font-size: 9px;
-  color: #355443;
+  color: #4b476b;
 }
 .mini-brand {
   display: flex;
@@ -287,10 +287,10 @@ a:hover {
 }
 .demo-window {
   position: absolute;
-  background: #fffef8;
+  background: #fffefb;
   border-radius: 5px;
   overflow: hidden;
-  box-shadow: 0 2px 5px #31513e17;
+  box-shadow: 0 2px 5px #3c397017;
   transition:
     left 0.45s cubic-bezier(0.2, 0.7, 0.2, 1),
     top 0.45s cubic-bezier(0.2, 0.7, 0.2, 1),
@@ -305,19 +305,19 @@ a:hover {
   align-items: center;
   gap: 3px;
   padding: 0 7px;
-  background: #f0f1e9;
-  border-bottom: 1px solid #e4e5dc;
+  background: #f1f1f7;
+  border-bottom: 1px solid #e5e5f0;
 }
 .window-bar i {
   width: 4px;
   height: 4px;
-  background: #c5cabc;
+  background: #c5c8d9;
   border-radius: 50%;
 }
 .window-bar span {
   font-size: 6px;
   margin-left: 6px;
-  color: #748074;
+  color: #73778b;
   white-space: nowrap;
 }
 .window-body {
@@ -335,15 +335,15 @@ a:hover {
   display: block;
   font: 22px/1.15 var(--serif);
   margin: 9px 0;
-  color: #597354;
+  color: #4e55ad;
 }
 .window-1 .window-body {
-  background: #f6f4e5;
+  background: #f5f3ff;
   height: 100%;
 }
 .fake-line {
   display: block;
-  background: #d9ddcf;
+  background: #dcddec;
   height: 4px;
   border-radius: 3px;
   width: 90%;
@@ -354,7 +354,7 @@ a:hover {
 }
 .mini-picture {
   height: 65px;
-  background: #d6ddca;
+  background: #dedcf4;
   position: relative;
   overflow: hidden;
   border-radius: 2px;
@@ -368,7 +368,7 @@ a:hover {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #ecde98;
+  background: #ffebb5;
 }
 .mini-picture:after {
   content: "";
@@ -378,7 +378,7 @@ a:hover {
   bottom: -28%;
   left: 0;
   transform: rotate(-28deg);
-  background: #8aa088;
+  background: #a59de0;
 }
 .mini-picture span {
   position: absolute;
@@ -387,7 +387,7 @@ a:hover {
   bottom: -35%;
   right: -12%;
   transform: rotate(35deg);
-  background: #638779;
+  background: #777bc6;
 }
 .checklist {
   font-size: 7px;
@@ -403,19 +403,19 @@ a:hover {
   white-space: nowrap;
 }
 .window-4 {
-  background: #294738;
+  background: #26304e;
 }
 .window-4 .window-bar {
-  background: #345343;
-  border-color: #44654f;
+  background: #354263;
+  border-color: #4b5474;
 }
 .window-4 .window-bar span {
-  color: #c8d8c4;
+  color: #c7ceeb;
 }
 .code-body {
   font-family: ui-monospace, monospace;
   font-size: 8px;
-  color: #b3cfa7;
+  color: #bcc8fb;
   line-height: 1.8;
 }
 .code-body span {
@@ -423,11 +423,11 @@ a:hover {
   white-space: nowrap;
 }
 .code-body span:first-child {
-  color: #ddd797;
+  color: #f7d8a1;
 }
 .code-cursor {
   margin-top: 9px;
-  color: #e4e9d4;
+  color: #e4e7ff;
 }
 .folder-row {
   font-size: 8px;
@@ -438,7 +438,7 @@ a:hover {
   white-space: nowrap;
 }
 .folder-row span {
-  color: #97af95;
+  color: #8998da;
   font-size: 20px;
   line-height: 1;
 }
@@ -452,15 +452,15 @@ a:hover {
   height: 57px;
   min-width: 57px;
   border-radius: 50%;
-  background: repeating-radial-gradient(#344c40 0 2px, #3e5748 3px 5px);
+  background: repeating-radial-gradient(#353c69 0 2px, #454e7c 3px 5px);
   display: grid;
   place-items: center;
 }
 .record span {
   width: 18px;
   height: 18px;
-  background: #e2c07d;
-  border: 6px solid #cbd6bc;
+  background: #bcadff;
+  border: 6px solid #dfdbff;
   border-radius: 50%;
 }
 .sound-body b {
@@ -477,13 +477,13 @@ a:hover {
 }
 .calendar-number {
   font: 40px/1 var(--serif);
-  color: #a9784b;
+  color: #7767b6;
 }
 .sketch-body {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #b2bf87;
+  color: #8b7be0;
   font-size: 40px;
 }
 .demo-canvas[data-layout="6"] .demo-window {
@@ -578,14 +578,14 @@ a:hover {
   padding-top: 9px;
 }
 .demo-dock span {
-  background: #f9fcf18c;
+  background: #ffffff8c;
   border-radius: 4px;
   display: grid;
   place-items: center;
   width: 20px;
   height: 20px;
   font-size: 13px;
-  color: #4d6d55;
+  color: #5b5e8b;
 }
 .demo-controls {
   margin: 24px auto 0;
@@ -710,7 +710,7 @@ a:hover {
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 25px 27px 30px;
-  background: #fafbf6;
+  background: #ffffff;
 }
 .feature-art {
   height: 129px;
@@ -723,7 +723,7 @@ a:hover {
 .card-index {
   font-size: 9px;
   letter-spacing: 1.6px;
-  color: #6f806e;
+  color: #6d7390;
   font-weight: 600;
 }
 .feature-card h3 {
@@ -747,49 +747,49 @@ a:hover {
 }
 .art-grid > div {
   height: 100%;
-  border: 1px solid #92aa8e;
+  border: 1px solid #b4b0df;
   border-radius: 4px;
-  background: #e1e9d6;
+  background: #e9e7fc;
 }
 .art-grid > div:nth-child(2) {
-  background: #adc5a6;
+  background: #aeabf1;
 }
 .art-grid > span {
   position: absolute;
   font-size: 30px;
   left: 62%;
   top: 60%;
-  color: #4c775c;
+  color: #566ed9;
 }
 .art-keys {
   gap: 7px;
 }
 .art-keys kbd {
   font-family: inherit;
-  background: #fffef9;
+  background: #ffffff;
   border-radius: 8px;
-  border: 1px solid #cdd5c5;
-  box-shadow: 0 4px 0 #e4e8de;
+  border: 1px solid #dcdaed;
+  box-shadow: 0 4px 0 #e7e5f4;
   width: 45px;
   height: 49px;
   text-align: center;
   line-height: 47px;
   font-size: 18px;
-  color: #607258;
+  color: #5f6381;
 }
 .art-keys kbd:last-child {
-  background: #dbe7ca;
-  color: #2d513a;
+  background: #dcd8fb;
+  color: #47499d;
   transform: translateY(3px);
-  box-shadow: 0 1px 0 #a9bf91;
+  box-shadow: 0 1px 0 #b0a9e3;
 }
 .undo-window {
   position: absolute;
   width: 90px;
   height: 68px;
   border-radius: 5px;
-  border: 1px solid #9bab99;
-  background: linear-gradient(#dce6d2 17%, #f5f7ef 17%);
+  border: 1px solid #b6b4d6;
+  background: linear-gradient(#e7e3fa 17%, #f7f6ff 17%);
 }
 .undo-window.back {
   left: 30%;
@@ -805,12 +805,12 @@ a:hover {
   left: 27%;
   top: 49px;
   font-size: 37px;
-  color: #678061;
+  color: #8a80bb;
 }
 .layout-section {
-  background: #eaf0e2;
-  border-top: 1px solid #dfe7d7;
-  border-bottom: 1px solid #dfe7d7;
+  background: #eeedfa;
+  border-top: 1px solid #e3e0f3;
+  border-bottom: 1px solid #e3e0f3;
   padding: 76px 0;
 }
 .layout-inner {
@@ -838,9 +838,9 @@ a:hover {
 }
 .layout-card {
   padding: 20px 15px 15px;
-  border: 1px solid #d6decc;
+  border: 1px solid #dedbed;
   border-radius: 8px;
-  background: #f7f9f1;
+  background: #fcfbff;
   text-align: center;
 }
 .layout-card b {
@@ -859,8 +859,8 @@ a:hover {
   gap: 4px;
 }
 .layout-icon i {
-  background: #c4d6b3;
-  border: 1px solid #a9c098;
+  background: #d5d2f7;
+  border: 1px solid #b5ade6;
   border-radius: 3px;
 }
 .halves {
@@ -901,7 +901,7 @@ a:hover {
 .language-number {
   font: 130px/0.9 var(--serif);
   letter-spacing: -10px;
-  color: #5f7d53;
+  color: #8580cc;
   position: relative;
   margin-right: 25px;
 }
@@ -934,7 +934,7 @@ a:hover {
   border: 1px solid var(--line);
   border-radius: 5px;
   font-size: 12px;
-  background: #fafbf7;
+  background: #ffffff;
   line-height: 1.6;
   unicode-bidi: isolate;
 }
@@ -954,12 +954,12 @@ a:hover {
   place-items: center;
   width: 34px;
   height: 34px;
-  border: 1px solid #c3cebb;
+  border: 1px solid #d4cfee;
   border-radius: 50%;
-  color: #4b6b45;
+  color: #6558aa;
   font-size: 14px;
   margin-bottom: 20px;
-  background: #edf1e3;
+  background: #f0edfc;
 }
 .setup-steps h3 {
   font-size: 16px;
@@ -1010,7 +1010,7 @@ a:hover {
   top: 15px;
   font-size: 21px;
   font-weight: 400;
-  color: #6b7d66;
+  color: #787295;
 }
 .faq-list details[open] summary:after {
   content: "−";
@@ -1028,18 +1028,18 @@ a:hover {
   color: var(--green);
 }
 .download-card {
-  background: #294a3e;
+  background: #25243f;
   border-radius: 13px;
   padding: 55px 62px;
   display: grid;
   grid-template-columns: 1.25fr 1fr;
   gap: 70px;
-  color: #f6f8e9;
+  color: #f6f4ff;
   position: relative;
   overflow: hidden;
 }
 .download-card .eyebrow {
-  color: #bccdaf;
+  color: #c5bee9;
   margin-bottom: 15px;
   font-size: 10px;
 }
@@ -1048,7 +1048,7 @@ a:hover {
   font-weight: 500;
 }
 .download-card > div > p:not(.eyebrow) {
-  color: #c3d0bd;
+  color: #cac6e3;
   font-size: 14px;
   margin-top: 13px;
 }
@@ -1057,7 +1057,7 @@ a:hover {
   gap: 8px;
   flex-wrap: wrap;
   font-size: 11px;
-  color: #b8c9b5;
+  color: #c1bbdf;
   margin-top: 25px;
 }
 .download-action {
@@ -1071,14 +1071,14 @@ a:hover {
   font-size: 10px;
   letter-spacing: 0.5px;
   margin-bottom: 12px;
-  color: #d3dfc7;
+  color: #dbd5f3;
 }
 .release-badge:before {
   content: "";
   display: inline-block;
   width: 5px;
   height: 5px;
-  background: #bfcda2;
+  background: #b5a7fa;
   border-radius: 50%;
   margin-right: 7px;
   vertical-align: middle;
