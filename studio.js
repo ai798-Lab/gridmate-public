@@ -1,4 +1,4 @@
-import { initProductPreview } from './product-preview.js?v=301e1f0a8b2d';
+import { initProductPreview } from './product-preview.js?v=bcf880c0f601';
 import { initScrollDepth, changeLayout, sceneClock, scrollToScene } from './scroll-depth.bundle.js?v=04d2cd199721';
 const en = () => document.documentElement.lang === 'en';
 const menu = document.querySelector('.menu-toggle');

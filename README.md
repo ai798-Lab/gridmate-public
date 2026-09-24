@@ -18,7 +18,7 @@ Preview at `http://127.0.0.1:8185`. Test both Chinese and English, desktop and m
 
 ## Publish a release
 
-The current release is **0.3.5, build 25**, published on 2026-09-20. The notarized Apple silicon DMG is served at `https://snaptiler.com/downloads/SnapTiler-0.3.5-arm64.dmg` with an identical immutable GitHub Release asset. Its SHA-256 and byte size are recorded in `latest.json`. Future unverified candidates must use the `pending` state, which disables download links. Do not add a download URL until the artifact has passed Developer ID signing, Apple notarization, Gatekeeper assessment, and download-to-install verification. Upload immutable versioned assets to this repository's GitHub Releases; do not reuse a URL for a different binary.
+The current release is **0.3.8 Beta, build 28**, published on 2026-09-24. The notarized Apple silicon DMG is served at `https://snaptiler.com/downloads/SnapTiler-0.3.8-arm64.dmg` with an identical immutable GitHub Release asset. Its SHA-256 and byte size are recorded in `latest.json`. Future unverified candidates must use the `pending` state, which disables download links. Do not add a download URL until the artifact has passed Developer ID signing, Apple notarization, Gatekeeper assessment, and download-to-install verification. Upload immutable versioned assets to this repository's GitHub Releases; do not reuse a URL for a different binary.
 
 Set the exact version, file size, SHA-256, date, public URLs, and all verification flags in `latest.json` only after those checks. Run the tests and checker again before publishing. The website never guesses download links or exposes a development build as a verified release.
 
@@ -40,15 +40,15 @@ PORT=8201 npm run dev
 
 导航与按钮采用完整、简短的单行措辞，不使用省略号。英文小屏入口为「Downloads」「Download status」「See the app」。说明段落正常换行，避免为强制单行而缩小正文。验收宽度覆盖 320、390 和 1200 CSS 像素，另检查 1440 像素宽的布局边界。
 
-公开下载继续由 `latest.json` 的验证字段控制。准备中时，顶部入口显示「下载状态」，不显示旧候选版本号；验证齐全后才显示获取和下载按钮。官网通过 GitHub Pages 发布，正式地址为 https://snaptiler.com/；www 子域名统一跳转到主域名。
+公开下载继续由 `latest.json` 的验证字段控制。准备中时，顶部入口显示「下载状态」，不显示旧候选版本号；验证齐全后才显示获取和下载按钮。官网通过 Vercel 的 ai798lab 团队（ai798-projects-1cd81196）独立 snaptiler 项目发布，正式地址为 https://snaptiler.com/；www 子域名统一跳转到主域名。
 
 ## 官网域名
 
 - 正式入口：https://snaptiler.com/
 - 中文：https://snaptiler.com/?lang=zh
 - English: https://snaptiler.com/?lang=en
-- `CNAME` 文件必须随网站发布，避免后续部署丢失域名绑定。
-- DNS 在 Porkbun 管理；根域 ALIAS 与 www CNAME 均指向 `ai798-lab.github.io`。
+- 域名绑定由 Vercel snaptiler 项目管理，CNAME 文件仅为旧 Pages 回退保留。
+- DNS 在 Porkbun 管理；根域 ALIAS 与 www CNAME 均指向 `723f9f03e3d364da.vercel-dns-016.com`（TTL 600）。
 - `robots.txt`、`sitemap.xml` 和页面 canonical 地址使用正式域名。
 
 ## 2026-09-20 · Stack AI 参考改版
@@ -61,7 +61,7 @@ PORT=8201 npm run dev
 
 ## 0.3.5 naming update
 
-The active installer is `SnapTiler-0.3.5-arm64.dmg`, containing `SnapTiler.app`. Its executable, resource bundle, and application identifier use the new brand. The package audit scans every filename and file byte (including UTF-16) for the retired name before release. Because the app identity changed, users grant Accessibility access again. The new app and website use the branded `latest.json` feed. The older `release.json` and versioned asset remain immutable compatibility archives for already-installed versions. Do not silently replace an immutable old asset.
+The 0.3.5 installer was `SnapTiler-0.3.5-arm64.dmg`, containing `SnapTiler.app`. Its executable, resource bundle, and application identifier use the new brand. The package audit scans every filename and file byte (including UTF-16) for the retired name before release. Because the app identity changed, users grant Accessibility access again. The new app and website use the branded `latest.json` feed. The older `release.json` and versioned asset remain immutable compatibility archives for already-installed versions. Do not silently replace an immutable old asset.
 
 
 ## 官网动效维护
@@ -74,3 +74,9 @@ The active installer is `SnapTiler-0.3.5-arm64.dmg`, containing `SnapTiler.app`.
 - ScrollTrigger 只在初始化、窗口变化和内容高度变化时测量位置；滚动期间使用直接 transform，不重新测量全部区块。
 - GSAP Flip 在点击时测量布局，以 transform 完成过渡，避免逐帧改变宽高。3D 与滚动共用时钟，离屏或画面稳定后停止申请渲染。
 - 上线前在实际浏览器检查连续滚动、导航定位、快速切换布局、原型交互、320px 窄屏、中英文和减少动态效果；测试通过不等于浏览器体验已验收。
+
+## 0.3.8 menu bar updates
+
+The menu bar includes a permanent update check, current version/status, and an orange indicator plus update action when a newer verified release is available. Update checks read https://snaptiler.com/latest.json. Downloads and installation remain user-driven.
+
+Website deployments are explicitly published through the Vercel CLI; a GitHub push alone does not deploy the official site.
